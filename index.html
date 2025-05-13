@@ -461,16 +461,22 @@
 <body class="bg-light">
   <div class="container mt-4">
     <div class="dashboard-header mb-4">
-      <h2>Admin Dashboard</h2>
-    </div>
+  <h2>Admin - Student Account Control</h2>
+  <div class="mb-3 text-end">
+    <a href="adminattendance.html" class="btn btn-primary">
+      📊 View Attendance Records
+    </a>
+  </div>
+</div>
+
 
     <div class="filter-options mb-3">
       <div class="w-100 w-md-50">
-        <label for="searchName" class="form-label">Search by Full Name:</label>
+        <label for="searchName" class="form-label">Search for Student Name:</label>
         <input type="text" id="searchName" class="form-control" placeholder="Enter name...">
       </div>
       <div class="w-100 w-md-25">
-        <label for="sortOrder" class="form-label">Sort by Time:</label>
+        <label for="sortOrder" class="form-label">Sort by Time Registered:</label>
         <select id="sortOrder" class="form-select">
           <option value="desc">Newest to Oldest</option>
           <option value="asc">Oldest to Newest</option>
@@ -528,7 +534,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzvH2iCX0S5c5Q2BTZFAi4QdXzln4aLL_MoNJ9vCZ2ysR3q_NO2dZNC7tYR8ccMnamI/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwl1EsJdGLrbRTEzw0g6q3wmAE_JH5yS-s-P5rQ0WQTfV4geqZ5u3PjYfEcBDUpPgcE/exec';
     let students = [];
     let filteredStudents = [];
     let debounceTimer;
@@ -722,7 +728,7 @@
       }
 
       document.getElementById('deleteStudentInfo').innerHTML =
-        `Are you sure you want to delete <strong>${student["Full Name"]}</strong>?`;
+        `Are you sure you want to delete <strong>${student["Full Name"]}</strong> account?`;
       document.getElementById('deleteRowIndex').value = rowIndex;
       document.getElementById('deleteEmail').value = email;
       document.getElementById('deleteReason').value = "";
