@@ -1,791 +1,470 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Dashboard</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-  :root {
-    --primary-dark: #2c3e50;
-    --primary-light: #f8f9fa;
-    --success: #27ae60;
-    --warning: #f39c12;
-    --danger: #e74c3c;
-    --secondary: #7f8c8d;
-    --text-dark: #2c3e50;
-    --text-light: #ecf0f1;
-    --border-radius: 10px;
-    --box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --active: #2196f3;
-  }
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4cc9f0;
+      --dark: #1a1a2e;
+      --light: rgba(255, 255, 255, 0.9);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+      --border-radius: 12px;
+      --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      --success: #4ade80;
+      --error: #ff6b6b;
+    }
 
-  * {
-    box-sizing: border-box;
-    margin: 0%;
-    padding: 0%;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: var(--text-dark);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    padding-bottom: 3rem;
-  }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--dark), #16213e);
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--light);
+    }
 
-  .container {
-    max-width: 1800px;
-    padding: 0 2rem;
-    margin: 0 auto;
-  }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: -1;
+    }
 
-  /* Dashboard Header */
-  .dashboard-header {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, #34495e 100%);
-    color: var(--text-light);
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    margin: 2rem 0 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .dashboard-header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #3498db, #9b59b6, #e74c3c);
-  }
-
-  .dashboard-header h2 {
-    font-weight: 700;
-    font-size: 2.2rem;
-    margin: 0;
-    letter-spacing: -0.5px;
-  }
-
-  /* Filter Section */
-  .filter-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    background: white;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    align-items: end;
-  }
-
-  .filter-group {
-    margin-bottom: 0;
-  }
-
-  .form-label {
-    font-weight: 400;
-    color: var(--primary-dark);
-    margin-bottom: 0.75rem;
-    display: block;
-    font-size: 0.95rem;
-  }
-
-  .form-control, .form-select {
-    width: 100%;
-    padding: 0.875rem 1.25rem;
-    border-radius: 8px;
-    border: 1px solid #dfe6e9;
-    background-color: #f8fafc;
-    font-size: 0.95rem;
-    transition: var(--transition);
-  }
-
-  .form-control:focus, .form-select:focus {
-    border-color: var(--primary-dark);
-    box-shadow: 0 0 0 3px rgba(52, 58, 64, 0.1);
-    background-color: white;
-    outline: none;
-  }
-
-  /* Table Styling */
-  .table-responsive {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-    background: white;
-  }
-
-  .table {
-    width: 100%;
-    margin-bottom: 0;
-    font-size: 0.7rem;
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-
-  .table thead th {
-    background-color: var(--primary-dark);
-    color: white;
-    padding: 1.25rem 1.25rem;
-    font-weight: 550;
-    text-transform: uppercase;
-    font-size: 0.55rem;
-    letter-spacing: 0.5px;
-    border: none;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    cursor: pointer;
-    transition: var(--transition);
-  }
-
-  .table thead th:hover {
-    background-color: #34495e;
-  }
-
-  .table thead th:first-child {
-    border-top-left-radius: var(--border-radius);
-  }
-
-  .table thead th:last-child {
-    border-top-right-radius: var(--border-radius);
-  }
-
-  .table tbody td {
-    padding: 1rem 1.5rem;
-    vertical-align: middle;
-    border-top: 1px solid #f1f5f9;
-  }
-
-  .table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: var(--border-radius);
-  }
-
-  .table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: var(--border-radius);
-  }
-
-  /* Zebra Striping & Hover Effects */
-  .table tbody tr:nth-child(even) {
-    background-color: #f8fafc;
-  }
-
-  .table tbody tr:hover {
-    background-color: #f1f5f9;
-  }
-
-  .table tbody tr.active-row {
-    background-color: #e3f2fd !important;
-    box-shadow: inset 0 0 0 2px var(--active);
-  }
-
-  /* Status Badges */
-  .badge {
-    padding: 0.5rem 0.75rem;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .badge.bg-success {
-    background-color: var(--success) !important;
-  }
-
-  .badge.bg-warning {
-    background-color: var(--warning) !important;
-    color: var(--text-dark) !important;
-  }
-
-  .badge.bg-success::before,
-  .badge.bg-warning::before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 6px;
-    background: currentColor;
-    opacity: 0.8;
-  }
-
-  /* Buttons */
-  .btn {
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.85rem;
-    transition: var(--transition);
-    letter-spacing: 0.3px;
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .btn-group-sm .btn {
-    padding: 0.35rem 0.5rem;
-    border-radius: 6px !important;
-  }
-
-  .btn-warning {
-    background-color: var(--warning);
-    color: var(--text-dark);
-  }
-
-  .btn-warning:hover {
-    background-color: #e67e22;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(241, 196, 15, 0.3);
-  }
-
-  .btn-danger {
-    background-color: var(--danger);
-    color: white;
-  }
-
-  .btn-danger:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
-  }
-
-  .btn-outline-warning {
-    color: var(--warning);
-    border: 1px solid var(--warning);
-    background-color: transparent;
-  }
-
-  .btn-outline-warning:hover {
-    background-color: var(--warning);
-    color: var(--text-dark);
-  }
-
-  .btn-outline-danger {
-    color: var(--danger);
-    border: 1px solid var(--danger);
-    background-color: transparent;
-  }
-
-  .btn-outline-danger:hover {
-    background-color: var(--danger);
-    color: white;
-  }
-
-  .btn-secondary {
-    background-color: var(--secondary);
-    color: white;
-  }
-
-  .btn-secondary:hover {
-    background-color: #6c757d;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
-  }
-
-  /* Password Toggle */
-  .password-toggle {
-    cursor: pointer;
-    color: var(--primary-dark);
-    font-size: 0.8rem;
-    margin-left: 0.5rem;
-    user-select: none;
-    transition: var(--transition);
-  }
-
-  .password-toggle:hover {
-    opacity: 0.8;
-  }
-
-  /* Modal Styling */
-  .modal-content {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    border: none;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-
-  .modal-header {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, #34495e 100%);
-    color: white;
-    padding: 1.25rem;
-    border-bottom: none;
-  }
-
-  .modal-title {
-    font-weight: 500;
-    font-size: 1rem;
-  }
-
-  .btn-close {
-    filter: invert(1) brightness(2);
-    opacity: 0.8;
-  }
-
-  .modal-body {
-    padding: 1.5rem;
-  }
-
-  .modal-footer {
-    border-top: 1px solid #f1f5f9;
-    padding: 1.25rem 1.5rem;
-    background-color: #f8fafc;
-  }
-
-  /* Loading Skeleton */
-  @keyframes shimmer {
-    0% { background-position: -1000px 0; }
-    100% { background-position: 1000px 0; }
-  }
-
-  .skeleton-row td {
-    background: linear-gradient(to right, #f6f7f8 8%, #e9ebee 18%, #f6f7f8 33%);
-    background-size: 1000px 104px;
-    height: 40px;
-    animation: shimmer 1.5s infinite linear;
-    border-radius: 4px;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 992px) {
-    .container {
+    .login-container {
+      width: 100%;
+      max-width: 420px;
       padding: 0 1.5rem;
     }
-    
-    .dashboard-header h2 {
-      font-size: 1.8rem;
-    }
-  }
 
-  @media (max-width: 768px) {
-    .filter-options {
-      grid-template-columns: 1fr;
-    }
-    
-    .table thead {
-      display: none;
-    }
-    
-    .table, .table tbody, .table tr, .table td {
-      display: block;
-      width: 100%;
-    }
-    
-    .table tr {
-      margin-bottom: 1.5rem;
+    .login-box {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: var(--glass-border);
       border-radius: var(--border-radius);
+      padding: 2.5rem 2rem;
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      position: relative;
+      transition: var(--transition);
+      z-index: 1;
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      position: relative;
     }
-    
-    .table td {
-      text-align: right;
-      padding-left: 50%;
-      position: relative;
-      border-top: 1px solid #f1f5f9;
-    }
-    
-    .table td::before {
-      content: attr(data-label);
+
+    .login-box::after {
+      content: '';
       position: absolute;
-      left: 1.5rem;
-      width: calc(50% - 1.5rem);
-      padding-right: 1rem;
-      text-align: left;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(76, 201, 240, 0.1) 50%,
+        transparent 100%
+      );
+      transform: rotate(30deg);
+      z-index: -1;
+      pointer-events: none;
+      animation: shine 6s infinite linear;
+    }
+
+    @keyframes shine {
+      0% { transform: rotate(30deg) translate(-30%, -30%); }
+      100% { transform: rotate(30deg) translate(30%, 30%); }
+    }
+
+    .login-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header h2 {
+      color: var(--light);
+      font-size: 1.8rem;
       font-weight: 600;
-      color: var(--primary-dark);
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
     }
-    
-    .table td:first-child {
-      border-top: none;
+
+    .login-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
     }
-    
-    .table td:last-child {
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px 14px 42px;
+      border-radius: var(--border-radius);
+      border: var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 65%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+    }
+
+    .btn-group {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      align-items: flex-end;
-      padding-bottom: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(67, 97, 238, 0.4);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.6);
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .message {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      min-height: 20px;
+      padding: 12px;
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(5px);
+    }
+
+    .message.error {
+      color: var(--error);
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.2);
+    }
+
+    .message.success {
+      color: var(--success);
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+    }
+
+    /* Floating bubbles background */
+    .bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 2rem 1.5rem;
+      }
+      
+      .login-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+
+<script>
+  document.getElementById("logoutBtn")?.addEventListener("click", () => {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "admin-login.html";
+  });
+</script>
+
+
+
+</head>
+<body>
+  <div class="bubbles" id="bubbles"></div>
+  
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <h2>Admin Login</h2>
+        <p>Secure access to admin dashboard</p>
+      </div>
+
+      <form id="loginForm">
+        <!-- Password Entry -->
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="input-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+
+        <!-- OTP Entry -->
+        <div class="input-group">
+          <label for="otp">One-Time Password</label>
+          <div class="input-icon">
+            <i class="fas fa-key"></i>
+          </div>
+          <input type="text" id="otp" placeholder="Enter OTP code" required>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" onclick="generateOTP()">
+            <i class="fas fa-sync-alt"></i>
+            Generate OTP
+          </button>
+          <button type="button" onclick="adminLogin()">
+            <i class="fas fa-sign-in-alt"></i>
+            Login
+          </button>
+        </div>
+
+        <div class="message" id="response"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz63OKge1spLhJ9xFcEcHeYQ5vaZNh4OYrPpM8ZrL1GU-iQU8WrJSWz7d3M0AJmsG35/exec";
+
+    function showMessage(msg, isSuccess = false) {
+      const responseDiv = document.getElementById("response");
+      responseDiv.textContent = msg;
+      responseDiv.className = isSuccess ? "message success" : "message error";
+    }
+
+    function generateOTP() {
+      const password = document.getElementById("password").value.trim();
+      const spinner = document.getElementById("spinner");
+      const generateBtn = document.querySelector('button[onclick="generateOTP()"]');
+
+      if (!password) {
+        showMessage("Please enter your password first to generate OTP.");
+        return;
+      }
+
+      // Show loading state
+      generateBtn.innerHTML = '<div class="spinner" style="display: inline-block;"></div> Generating...';
+      showMessage("");
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({
+          action: "generate_otp",
+          password: password
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Reset button state
+        generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate OTP';
+        showMessage(data.message, data.success);
+      })
+      .catch(err => {
+        generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate OTP';
+        showMessage("Network error: " + err.message);
+      });
+    }
+
+    function adminLogin() {
+      const otp = document.getElementById("otp").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const loginBtn = document.querySelector('button[onclick="adminLogin()"]');
+
+      if (!otp || !password) {
+        showMessage("Please enter both OTP and password.");
+        return;
+      }
+
+      // Show loading state
+      loginBtn.innerHTML = '<div class="spinner" style="display: inline-block;"></div> Logging in...';
+      showMessage("");
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({
+          action: "admin_login",
+          otp: otp,
+          password: password
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          showMessage("Login successful! Redirecting...", true);
+          sessionStorage.setItem("admin_logged_in", "true");
+          setTimeout(() => {
+            window.location.href = "adminattendance.html";
+          }, 500);
+        } else {
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+          showMessage(data.message);
+        }
+      })
+      .catch(err => {
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        showMessage("Network error: " + err.message);
+      });
+    }
+  </script>
+  <script>
+    // Create floating bubbles
+    function createBubbles() {
+      const bubbles = document.getElementById('bubbles');
+      const bubbleCount = 15;
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 20 + 10;
+        
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${posX}%`;
+        bubble.style.animationDuration = `${duration}s`;
+        bubble.style.animationDelay = `${delay}s`;
+        
+        bubbles.appendChild(bubble);
+      }
     }
     
-    .btn-group {
-      width: 70%;
-    }
-
-    .btn-group .btn {
-      width: 70%;
-    }
-
-    .password-toggle {
-      display: block;
-      margin-left: 0;
-      margin-top: 0.5rem;
-    }
-  }
-
-  /* Loading Spinner */
-  .spinner-border {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-width: 0.15em;
-  }
-
-  /* Utility Classes */
-  .text-uppercase {
-    letter-spacing: 0.5px;
-  }
-</style>
-  <script>
-    DisableDevtool({});
-    document.addEventListener('keydown', e => {
-      if ((e.ctrlKey && ['s','c','v','x','a','p'].includes(e.key.toLowerCase()))) {
-        e.preventDefault();
-      }
-    });
-  </script>
-</head>
-<body class="bg-light">
-  <div class="container mt-4">
-    <div class="dashboard-header mb-4">
-  <h2>Admin - Student Account Control</h2>
-  <div class="mb-3 text-end">
-    <a href="adminattendance.html" class="btn btn-primary">
-      📊 View Attendance Records
-    </a>
-  </div>
-</div>
-
-
-    <div class="filter-options mb-3">
-      <div class="w-100 w-md-50">
-        <label for="searchName" class="form-label">Search for Student Name:</label>
-        <input type="text" id="searchName" class="form-control" placeholder="Enter name...">
-      </div>
-      <div class="w-100 w-md-25">
-        <label for="sortOrder" class="form-label">Sort by Time Registered:</label>
-        <select id="sortOrder" class="form-select">
-          <option value="desc">Newest to Oldest</option>
-          <option value="asc">Oldest to Newest</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="table-responsive">
-      <table class="table table-hover compact" id="studentTable">
-        <thead class="table-dark">
-          <tr>
-            <th width="5%">#</th>
-            <th width="10%">Student ID</th>
-            <th width="15%" data-sortable data-sort-key="Full Name">Full Name</th>
-            <th width="15%" data-sortable data-sort-key="Email">Email</th>
-            <th width="10%">Password</th>
-            <th width="10%">Course/Section</th>
-            <th width="15%" data-sortable data-sort-key="Registered At">Registered At</th>
-            <th width="10%">Status</th>
-            <th width="10%">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Delete Confirmation Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="deleteForm">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Delete Student Account</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p id="deleteStudentInfo"></p>
-            <div class="mb-3">
-              <label for="deleteReason" class="form-label">Reason for deletion:</label>
-              <textarea id="deleteReason" class="form-control" rows="3" required></textarea>
-            </div>
-            <input type="hidden" id="deleteRowIndex">
-            <input type="hidden" id="deleteEmail">
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-danger">Delete & Send to Email</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwl1EsJdGLrbRTEzw0g6q3wmAE_JH5yS-s-P5rQ0WQTfV4geqZ5u3PjYfEcBDUpPgcE/exec';
-    let students = [];
-    let filteredStudents = [];
-    let debounceTimer;
-    let currentSort = { key: 'Registered At', order: 'desc' };
-
-    // Initialize the application
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchStudents();
-      setupEventListeners();
-    });
-
-    function setupEventListeners() {
-      // Debounced search input
-      document.getElementById("searchName").addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(renderTable, 300);
-      });
-
-      document.getElementById("sortOrder").addEventListener("change", renderTable);
-
-      // Initialize sortable columns
-      document.querySelectorAll('th[data-sortable]').forEach(th => {
-        th.addEventListener('click', () => {
-          const key = th.dataset.sortKey;
-          const order = th.dataset.sortOrder === 'asc' ? 'desc' : 'asc';
-          
-          // Update UI indicators
-          document.querySelectorAll('[data-sortable]').forEach(h => {
-            h.innerHTML = h.innerHTML.replace(/ ?[↑↓]/, '');
-            h.dataset.sortOrder = '';
-          });
-          th.innerHTML += order === 'asc' ? ' ↑' : ' ↓';
-          th.dataset.sortOrder = order;
-          
-          // Update current sort
-          currentSort = { key, order };
-          renderTable();
-        });
-      });
-    }
-
-    async function fetchStudents() {
-      showLoadingSkeleton();
-      try {
-        const res = await fetch(scriptURL);
-        const data = await res.json();  
-        students = data.map((s, i) => ({ ...s, rowIndex: i + 2 }));
-        filteredStudents = [...students];
-        renderTable();
-      } catch (err) {
-        alert("Failed to fetch student data.");
-        console.error(err);
-      }
-    }
-
-    function showLoadingSkeleton(rows = 5) {
-      const table = document.getElementById("tableBody");
-      table.innerHTML = '';
-      
-      for (let i = 0; i < rows; i++) {
-        const row = document.createElement("tr");
-        row.className = "skeleton-row";
-        row.innerHTML = `<td colspan="9"></td>`;
-        table.appendChild(row);
-      }
-    }
-
-    function renderTable() {
-      const searchText = document.getElementById("searchName").value.toLowerCase();
-      const timeSortOrder = document.getElementById("sortOrder").value;
-      
-      // Filter students
-      filteredStudents = students.filter(s => 
-        s["Full Name"].toLowerCase().includes(searchText)
-      );
-
-      // Sort students
-      filteredStudents.sort((a, b) => {
-        if (currentSort.key === 'Registered At') {
-          const dateA = new Date(a["Registered At"]);
-          const dateB = new Date(b["Registered At"]);
-          return currentSort.order === "asc" ? dateA - dateB : dateB - dateA;
-        } else {
-          const valA = a[currentSort.key];
-          const valB = b[currentSort.key];
-          return currentSort.order === "asc" 
-            ? valA.localeCompare(valB) 
-            : valB.localeCompare(valA);
-        }
-      });
-
-      const table = document.getElementById("tableBody");
-      table.innerHTML = "";
-
-      filteredStudents.forEach((s, index) => {
-        const rawDate = new Date(s["Registered At"]);
-        const registrationTime = rawDate.toLocaleString('en-US', { 
-          year: 'numeric', 
-          month: 'numeric', 
-          day: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit', 
-          hour12: true 
-        }).replace(',', ' -');
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td data-label="#">${index + 1}</td>
-          <td data-label="Student ID">${s["Student ID"]}</td>
-          <td data-label="Full Name">${s["Full Name"]}</td>
-          <td data-label="Email">${s.Email}</td>
-          <td data-label="Password">
-            <span class="password-value">••••••</span>
-            <span class="password-toggle" onclick="togglePassword(this, '${s.Password}')">👁️</span>
-          </td>
-          <td data-label="Course/Section">${s.Course} - ${s.Section}</td>
-          <td data-label="Registered At">${registrationTime}</td>
-          <td data-label="Status">  
-            ${s["Account Status"] === "Active" 
-              ? '<span class="badge bg-success">Active</span>' 
-              : '<span class="badge bg-warning text-dark">Pending</span>'
-            }
-          </td>
-          <td data-label="Actions">
-            <div class="btn-group btn-group-sm" role="group">
-              <button class="btn btn-outline-warning" onclick="toggleStatus(${s.rowIndex}, '${s.Email}', this, event)">
-                <span class="d-none d-md-inline">${s["Account Status"] === "Pending" ? "Activate" : "Deactivate"}</span>
-                ${s["Account Status"] === "Pending" ? "✅" : "⏸️"}
-              </button>
-              <button class="btn btn-outline-danger" onclick="deleteStudent(${s.rowIndex}, '${s.Email}', event)">
-                <span class="d-none d-md-inline">Delete</span> 🗑️
-              </button>
-            </div>
-          </td>
-        `;
-        
-        // Add row click handler
-        row.addEventListener('click', (e) => {
-          if (!e.target.closest('button')) {
-            document.querySelectorAll('.active-row').forEach(r => r.classList.remove('active-row'));
-            row.classList.add('active-row');
-          }
-        });
-        
-        table.appendChild(row);
-      });
-    }
-
-    function togglePassword(element, password) {
-      const passwordSpan = element.previousElementSibling;
-      if (passwordSpan.textContent === "••••••") {
-        passwordSpan.textContent = password;
-        element.textContent = "👁️";
-      } else {
-        passwordSpan.textContent = "••••••";
-        element.textContent = "👁️";
-      }
-    }
-
-    async function toggleStatus(rowIndex, email, button, event) {
-      event.stopPropagation();
-      try {
-        button.disabled = true;
-        const originalText = button.innerHTML;
-        button.innerHTML = `
-          <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-          Changing...
-        `;
-
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ action: 'toggleStatus', rowIndex, email })
-        });
-
-        const result = await res.text();
-        alert(`Student Account status: ${result}`);
-        fetchStudents();
-      } catch (err) {
-        alert("Failed to toggle status.");
-        console.error(err);
-      }
-    }
-
-    function deleteStudent(rowIndex, email, event) {
-      event.stopPropagation();
-      const student = students.find(s => s.rowIndex === rowIndex);
-      if (!student) {
-        alert("Student account is not found.");
-        return;
-      }
-
-      document.getElementById('deleteStudentInfo').innerHTML =
-        `Are you sure you want to delete <strong>${student["Full Name"]}</strong> account?`;
-      document.getElementById('deleteRowIndex').value = rowIndex;
-      document.getElementById('deleteEmail').value = email;
-      document.getElementById('deleteReason').value = "";
-
-      const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-      deleteModal.show();
-    }
-
-    document.getElementById('deleteForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const deleteBtn = this.querySelector('button[type="submit"]');
-      const originalHTML = deleteBtn.innerHTML;
-
-      deleteBtn.disabled = true;
-      deleteBtn.innerHTML = `
-        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-        Deleting...
-      `;
-
-      const rowIndex = document.getElementById('deleteRowIndex').value;
-      const email = document.getElementById('deleteEmail').value;
-      const reason = document.getElementById('deleteReason').value;
-
-      const student = students.find(s => s.rowIndex == rowIndex);
-      if (!student) {
-        alert("Student account is not found.");
-        deleteBtn.innerHTML = originalHTML;
-        deleteBtn.disabled = false;
-        return;
-      }
-
-      try {
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-            action: 'delete',
-            rowIndex,
-            email,
-            reason,
-            studentId: student["Student ID"],
-            section: student["Section"],
-            course: student["Course"]
-          })
-        });
-
-        const result = await res.text();
-        alert(result);
-        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
-        fetchStudents();
-      } catch (err) {
-        alert("Failed to delete student account.");
-        console.error(err);
-        deleteBtn.innerHTML = originalHTML;
-        deleteBtn.disabled = false;
-      }
-    });
+    createBubbles();
   </script>
 </body>
 </html>
