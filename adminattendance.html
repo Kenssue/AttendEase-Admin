@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | AttendEase</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  <!-- PDF Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    :root {
+      --primary-dark: #1a365d;
+      --primary-light: #f8f9fa;
+      --primary-accent: #4299e1;
+      --primary-accent-light: #ebf8ff;
+      --success: #38a169;
+      --success-light: #f0fff4;
+      --warning: #dd6b20;
+      --warning-light: #fffaf0;
+      --danger: #e53e3e;
+      --danger-light: #fff5f5;
+      --secondary: #718096;
+      --secondary-light: #f7fafc;
+      --text-dark: #2d3748;
+      --text-light: #f7fafc;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --transition: all 0.2s ease-in-out;
+      --active: #3182ce;
+      --sidebar-width: 260px;
+      --header-height: 80px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7fa;
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--primary-dark);
+      color: var(--text-light);
+      position: fixed;
+      height: 100vh;
+      transition: var(--transition);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-header h3 {
+      font-weight: 600;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    .sidebar-header h3 i {
+      color: var(--primary-accent);
+      font-size: 1.4rem;
+    }
+
+    .nav-menu {
+      padding: 1rem 0;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      margin-bottom: 0.25rem;
+      padding: 0 0.75rem;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-link i {
+      width: 24px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .sidebar-footer {
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+
+    .content-area {
+      padding: 2rem;
+      flex-grow: 1;
+    }
+
+    /* Header Styles */
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .page-header {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .page-header h1 {
+      font-weight: 700;
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-dark);
+    }
+
+    .page-header p {
+      color: var(--secondary);
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--primary-accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    .user-role {
+      font-size: 0.75rem;
+      color: var(--secondary);
+    }
+
+    .logout-btn {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn:hover {
+      background: var(--danger);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(229, 62, 62, 0.2);
+    }
+
+    /* Filters Section */
+    .filters-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      align-items: end;
+    }
+
+    .filter-group {
+      margin-bottom: 0;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      border-radius: var(--border-radius);
+      border: 1px solid #e2e8f0;
+      padding: 0.625rem 0.75rem;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      background-color: white;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+      outline: none;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    .btn-download {
+      background-color: var(--primary-dark);
+      color: white;
+      border: none;
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      height: fit-content;
+    }
+
+    .btn-download:hover {
+      background-color: #2c5282;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 54, 93, 0.2);
+    }
+
+    /* Table Styles */
+    .table-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      position: relative;
+      min-height: 300px;
+    }
+
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .table thead {
+      background-color: var(--primary-dark);
+      color: var(--text-light);
+      position: sticky;
+      top: 0;
+    }
+
+    .table th {
+      padding: 1rem;
+      font-weight: 600;
+      text-align: left;
+      border-bottom: none;
+      white-space: nowrap;
+    }
+
+    .table td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-top: 1px solid #edf2f7;
+      word-wrap: break-word;
+    }
+
+    .table tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .sortable-header {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .sortable-header:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sortable-header i {
+      margin-left: 0.5rem;
+      opacity: 0.7;
+      font-size: 0.8rem;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 0.4rem 0.75rem;
+      border-radius: 50px;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+      min-width: 80px;
+      text-align: center;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+    }
+
+    .status-present {
+      background-color: var(--success);
+    }
+
+    .status-absent {
+      background-color: var(--danger);
+    }
+
+    .status-late {
+      background-color: var(--warning);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--secondary);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #cbd5e0;
+      opacity: 0.7;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+      margin-bottom: 0;
+      color: var(--secondary);
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 10;
+      border-radius: var(--border-radius);
+    }
+
+    .loading-spinner p {
+      margin-top: 1rem;
+      color: var(--secondary);
+      font-size: 0.95rem;
+    }
+
+    .spinner-border {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-width: 0.25rem;
+    }
+
+    /* Student Count */
+    .student-count {
+      font-size: 0.9rem;
+      color: var(--secondary);
+      margin-top: 1rem;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: var(--primary-dark);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      align-items: center;
+      gap: 0.75rem;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+    }
+
+    .mobile-menu-btn:hover {
+      background: #2c5282;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+      .filters {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .mobile-menu-btn {
+        display: flex;
+      }
+      
+      .table th, .table td {
+        padding: 0.75rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-area {
+        padding: 1.5rem;
+      }
+      
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        justify-content: flex-start;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.25rem;
+      }
+      
+      .user-profile {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+      }
+      
+      .table-container {
+        padding: 1rem;
+      }
+      
+      .table th, .table td {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+      
+      .status-badge {
+        min-width: 70px;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .content-area {
+        padding: 1rem;
+      }
+      
+      .header-container {
+        padding: 1rem;
+      }
+      
+      .page-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .logout-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .btn-download {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+      }
+      
+      .empty-state {
+        padding: 2rem 1rem;
+      }
+      
+      .empty-state i {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    /* Overlay for mobile menu */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    @media (max-width: 992px) {
+      .sidebar-overlay.active {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3><i class="fas fa-university"></i> AttendEase</h3>
+      </div>
+      
+      <nav class="nav-menu">
+        <div class="nav-item">
+          <a href="#" class="nav-link active">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="adminaccountcontrol.html" class="nav-link">
+            <i class="fas fa-user-cog"></i>
+            <span>Account Control</span>
+          </a>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="user-avatar">AD</div>
+          <div class="user-info">
+            <span class="user-name">Admin User</span>
+            <span class="user-role">Administrator</span>
+          </div>
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-area">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+          <span>Menu</span>
+        </button>
+
+        <div class="header-container">
+          <div class="page-header">
+            <h1>Attendance Dashboard</h1>
+            <p>View and manage student attendance records</p>
+          </div>
+          
+        </div>
+
+        <div class="filters-container">
+          <div class="filters">
+            <div class="filter-group">
+              <label for="sectionInput">Section</label>
+              <input class="form-control" list="sectionList" id="sectionInput" placeholder="Select section...">
+              <datalist id="sectionList"></datalist>
+            </div>
+            <div class="filter-group">
+              <label for="searchInput">Search Students</label>
+              <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+            </div>
+            <div class="filter-group">
+              <label for="statusFilter">Status</label>
+              <select class="form-select" id="statusFilter">
+                <option value="all" selected>All Status</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+                <option value="late">Late</option>
+              </select>
+            </div>
+            <div class="action-buttons">
+              <button class="btn-download" id="downloadBtn">
+                <i class="fas fa-file-pdf"></i>
+                <span>Export PDF</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Loading attendance data...</p>
+          </div>
+          
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="sortable-header">Student Name <i class="fas fa-sort"></i></th>
+                <th class="sortable-header">Student ID <i class="fas fa-sort"></i></th>
+                <th class="sortable-header">Course <i class="fas fa-sort"></i></th>
+                <th class="sortable-header">Section <i class="fas fa-sort"></i></th>
+                <th>Status</th>
+                <th class="sortable-header">Timestamp <i class="fas fa-sort"></i></th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <i class="fas fa-clipboard-list"></i>
+                  <p>No data available. Select a section first.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p id="studentCount" class="student-count"></p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbze8AxkuZSphq9S2-lESnAkDZVh5CxBf2BC7jDgZj_qEZv3ciYWH5Vp-1UPcwVNGmM/exec';
+    const sectionInput = document.getElementById('sectionInput');
+    const studentTableBody = document.getElementById('studentTableBody');
+    const studentCount = document.getElementById('studentCount');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const statusFilter = document.getElementById('statusFilter');
+    const searchInput = document.getElementById('searchInput');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      sidebarOverlay.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking overlay
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+    });
+
+    function loadSections() {
+      const formData = new FormData();
+      formData.append('action', 'getSectionSheets');
+
+      fetch(scriptURL, { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+          const datalist = document.getElementById('sectionList');
+          datalist.innerHTML = '';
+          if (data.success && Array.isArray(data.sections)) {
+            data.sections.forEach(section => {
+              const option = document.createElement('option');
+              option.value = section;
+              datalist.appendChild(option);
+            });
+          } else {
+            alert('Failed to load section sheets.');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error fetching section sheets.');
+        });
+    }
+
+    function loadStudents(section) {
+      loadingSpinner.style.display = 'flex';
+      studentTableBody.innerHTML = '';
+
+      const formData = new FormData();
+      formData.append('action', 'getClassmatesBySection');
+      formData.append('section', section);
+
+      fetch(scriptURL, { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+          loadingSpinner.style.display = 'none';
+          if (data.success && data.classmates.length > 0) {
+            window.allStudents = data.classmates;
+            applyFilters();
+          } else {
+            studentTableBody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-user-slash"></i><p>No students found.</p></td></tr>';
+            studentCount.textContent = 'Showing 0 students';
+          }
+        })
+        .catch(err => {
+          loadingSpinner.style.display = 'none';
+          console.error(err);
+          studentTableBody.innerHTML = '<tr><td colspan="6" class="empty-state text-danger"><i class="fas fa-exclamation-triangle"></i><p>Failed to load students.</p></td></tr>';
+        });
+    }
+
+    function applyFilters() {
+      const statusVal = statusFilter.value;
+      const query = searchInput.value.toLowerCase();
+
+      const filtered = window.allStudents.filter(student => {
+        const status = student.status?.toLowerCase() || 'absent';
+        const nameMatch = student.full_name.toLowerCase().includes(query);
+        const statusMatch =
+          statusVal === 'all' ||
+          (statusVal === 'present' && status === 'present') ||
+          (statusVal === 'absent' && status !== 'present') ||
+          (statusVal === 'late' && status === 'late');
+
+        return nameMatch && statusMatch;
+      });
+
+      studentTableBody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        studentTableBody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-search"></i><p>No matching students found.</p></td></tr>';
+        studentCount.textContent = 'Showing 0 students';
+        return;
+      }
+
+      filtered.forEach(student => {
+        const status = student.status?.toLowerCase() || 'absent';
+        const statusClass =
+          status === 'present' ? 'status-present' :
+          status === 'late' ? 'status-late' :
+          'status-absent';
+
+        const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${student.full_name}</td>
+          <td>${student.student_id}</td>
+          <td>${student.course}</td>
+          <td>${student.section}</td>
+          <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+          <td>${formatTimestamp(student.timestamp)}</td>
+        `;
+        studentTableBody.appendChild(row);
+      });
+
+      studentCount.textContent = `Showing ${filtered.length} student(s)`;
+    }
+
+    function formatTimestamp(timestamp) {
+      if (!timestamp) return 'Not recorded';
+      const date = new Date(timestamp);
+      return isNaN(date) ? 'Invalid date' : date.toLocaleString('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      const doc = new jspdf.jsPDF();
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      });
+
+      const fileName = `Attendance_${window.currentSection || 'Unknown'}_${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.pdf`;
+
+      const dataRows = Array.from(studentTableBody.querySelectorAll('tr'))
+        .map(row => {
+          const cols = row.querySelectorAll('td');
+          if (cols.length === 6) {
+            return [
+              cols[0].textContent.trim(),
+              cols[1].textContent.trim(),
+              cols[2].textContent.trim(),
+              cols[4].textContent.trim(),
+              cols[5].textContent.trim()
+            ];
+          }
+        }).filter(Boolean);
+
+      if (dataRows.length === 0) {
+        alert('No data to export.');
+        return;
+      }
+
+      doc.setFontSize(16);
+      doc.text(`Attendance Report - ${window.currentSection || 'Unknown'}`, 14, 20);
+      doc.setFontSize(10);
+      doc.text(`Generated on: ${formattedDate}`, 14, 26);
+
+      doc.autoTable({
+        head: [['Name', 'ID', 'Course', 'Status', 'Timestamp']],
+        body: dataRows,
+        startY: 35,
+        theme: 'grid',
+        headStyles: {
+          fillColor: [26, 54, 93],
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        alternateRowStyles: {
+          fillColor: [248, 249, 250],
+        },
+        styles: { fontSize: 9, cellPadding: 4 }
+      });
+
+      doc.save(fileName);
+    });
+
+    sectionInput.addEventListener('input', () => {
+      const selected = sectionInput.value.trim();
+      if (selected) {
+        window.currentSection = selected;
+        loadStudents(selected);
+      }
+    });
+
+    statusFilter.addEventListener('change', applyFilters);
+    searchInput.addEventListener('input', applyFilters);
+
+    loadSections();
+  </script>
+  
+  <script>
+    logoutBtn.addEventListener('click', () => {
+      // Add your logout logic here
+      if (confirm('Are you sure you want to logout?')) {
+        window.location.href = 'index.html'; // Change to your logout URL
+      }
+    });
+  </script>
+  
+  <script>
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     // Check admin login status
+    //     if (sessionStorage.getItem('admin_logged_in') !== 'true') {
+    //         window.location.href = 'admin-login.html';
+    //         return;
+    //     }
+    //
+    //     // Setup event listeners
+    //     setupEventListeners();
+    //     
+    //     // Load initial data
+    //     loadSections();
+    // }); 
+  </script>
+</body>
+</html>
