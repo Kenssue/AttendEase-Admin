@@ -1024,7 +1024,7 @@
                 Search Students
               </label>
               <div class="input-with-icon">
-                <input type="text" id="searchName" class="form-control" placeholder="Name, ID, or email...">
+                <input type="text" id="searchName" class="form-control" placeholder="ID, Name, Section, or Course...">
               </div>
             </div>
             <div class="filter-group">
@@ -1129,7 +1129,7 @@
   </div>
 
   <!-- Add Student Modal -->
-  <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+  <div class="modal x ade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <form id="addStudentForm">
@@ -1350,8 +1350,9 @@
       const matchesSearch = 
         s["Full Name"]?.toLowerCase().includes(searchText) ||
         s["Student ID"]?.toLowerCase().includes(searchText) ||
-        s.Email?.toLowerCase().includes(searchText);
-      
+        s.Email?.toLowerCase().includes(searchText) ||
+        s.Section?.toLowerCase().includes(searchText) ||
+    s.Course?.toLowerCase().includes(searchText);
       const matchesStatus = 
         statusFilter === 'all' ||
         (statusFilter === 'active' && s["Account Status"] === "Active") ||
