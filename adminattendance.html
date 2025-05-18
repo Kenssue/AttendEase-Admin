@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    if (!sessionStorage.getItem('admin_logged_in')) {
+      window.location.href = 'index.html';
+    }
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Admin Dashboard | AttendEase</title>
@@ -1533,5 +1539,13 @@
       }
     });
   </script>
+
+  <script>
+    window.history.pushState(null, "", window.location.href);        
+    window.onpopstate = function () {
+      window.history.pushState(null, "", window.location.href);
+    };
+  </script>
+
 </body>
 </html>
