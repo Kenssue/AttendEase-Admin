@@ -20,8 +20,25 @@
   
   <!-- PDF Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+<script>
+    DisableDevtool({
+    });
+    document.addEventListener('keydown', e => {
+      if (
+        (e.ctrlKey && e.key.toLowerCase() === 's') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'c') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'v') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'x') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'a') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'p')   
+      ) {
+        e.preventDefault();
+      }
+    });
+</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
+  
   <style>
     :root {
       --primary-dark: #1a365d;
