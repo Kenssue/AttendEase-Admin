@@ -6,6 +6,23 @@
       window.location.href = 'index.html';
     }
   </script>
+  <script src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+<script>
+    DisableDevtool({
+    });
+    document.addEventListener('keydown', e => {
+      if (
+        (e.ctrlKey && e.key.toLowerCase() === 's') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'c') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'v') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'x') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'a') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'p')   
+      ) {
+        e.preventDefault();
+      }
+    });
+</script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
