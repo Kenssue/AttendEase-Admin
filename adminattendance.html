@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Admin Dashboard | AttendEase</title>
-
+  
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
   <!-- PDF Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -20,24 +20,26 @@
     :root {
       --primary-dark: #1a365d;
       --primary-light: #f8f9fa;
-      --primary-accent: #4299e1;
+      --primary-accent: #2b6cb0;
       --primary-accent-light: #ebf8ff;
-      --success: #38a169;
+      --success: #2f855a;
       --success-light: #f0fff4;
-      --warning: #dd6b20;
+      --warning: #b7791f;
       --warning-light: #fffaf0;
-      --danger: #e53e3e;
+      --danger: #c53030;
       --danger-light: #fff5f5;
       --secondary: #718096;
       --secondary-light: #f7fafc;
       --text-dark: #2d3748;
+      --text-medium: #4a5568;
       --text-light: #f7fafc;
-      --border-radius: 8px;
-      --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --border-radius: 0.5rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       --transition: all 0.2s ease-in-out;
-      --active: #3182ce;
-      --sidebar-width: 260px;
-      --header-height: 80px;
+      --sidebar-width: 280px;
     }
 
     body {
@@ -48,6 +50,7 @@
       line-height: 1.6;
     }
 
+    /* Dashboard Layout */
     .dashboard-container {
       display: flex;
       min-height: 100vh;
@@ -65,7 +68,7 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
     }
 
     .sidebar-header {
@@ -91,6 +94,19 @@
       padding: 1rem 0;
       flex-grow: 1;
       overflow-y: auto;
+    }
+
+    .nav-group {
+      padding: 0.5rem 0;
+    }
+
+    .nav-group-title {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.25rem;
     }
 
     .nav-item {
@@ -144,37 +160,45 @@
     }
 
     /* Header Styles */
-    .header-container {
+    .page-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
       flex-wrap: wrap;
-      gap: 1rem;
-      background: white;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
       padding: 1.5rem;
+      background-color: white;
       border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
     }
 
-    .page-header {
+    .page-header-content {
       flex: 1;
       min-width: 300px;
     }
 
-    .page-header h1 {
-      font-weight: 700;
+    .page-title {
       font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-      color: var(--primary-dark);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-right: 0.75rem;
+      display: inline-block;
     }
 
-    .page-header p {
-      color: var(--secondary);
+    .page-description {
+      color: var(--text-medium);
+      margin-top: 0.5rem;
       margin-bottom: 0;
-      font-size: 0.9rem;
     }
 
+    .page-header-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    /* User Profile */
     .user-profile {
       display: flex;
       align-items: center;
@@ -237,8 +261,36 @@
       background: white;
       padding: 1.5rem;
       border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
       margin-bottom: 1.5rem;
+    }
+
+    .filters-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .filters-header h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0;
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: none;
+      color: var(--primary-accent);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .btn-reset:hover {
+      text-decoration: underline;
     }
 
     .filters {
@@ -252,12 +304,29 @@
       margin-bottom: 0;
     }
 
-    .filter-group label {
+    .filter-label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--text-dark);
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary);
+      font-size: 0.9rem;
+    }
+
+    .input-with-icon input {
+      padding-left: 2.25rem;
     }
 
     .filters input,
@@ -278,39 +347,59 @@
       outline: none;
     }
 
-    .action-buttons {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-      align-items: flex-end;
+    /* Button Styles */
+    .btn {
+      --btn-padding: 0.625rem 1.25rem;
+      --btn-radius: 0.375rem;
+      --btn-font-size: 0.875rem;
+      --btn-icon-size: 1rem;
+      
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: var(--btn-padding);
+      border-radius: var(--btn-radius);
+      font-size: var(--btn-font-size);
+      font-weight: 500;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
     }
 
-    .btn-download {
+    .btn i {
+      font-size: var(--btn-icon-size);
+    }
+
+    .btn-primary {
       background-color: var(--primary-dark);
       color: white;
-      border: none;
-      padding: 0.625rem 1.25rem;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-      height: fit-content;
     }
 
-    .btn-download:hover {
-      background-color: #2c5282;
+    .btn-primary:hover {
+      background-color: var(--primary-accent);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(26, 54, 93, 0.2);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border-color: var(--secondary-light);
+      color: var(--text-dark);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--secondary-light);
     }
 
     /* Table Styles */
-    .table-container {
+    /* Improved Table Styles */
+  .table-container {
       background: white;
       padding: 1.5rem;
       border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
       margin-bottom: 2rem;
       overflow-x: auto;
       position: relative;
@@ -318,89 +407,118 @@
     }
 
     .table {
+      --table-border-radius: 0.5rem;
+      --table-cell-padding: 0.75rem 1rem;
+      --table-header-padding: 0.75rem 1rem;
+      
+      width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      width: 100%;
-      font-size: 0.9rem;
+      font-size: 0.87rem;
+      table-layout: fixed;
     }
 
     .table thead {
-      background-color: var(--primary-dark);
-      color: var(--text-light);
       position: sticky;
       top: 0;
+      z-index: 10;
     }
 
     .table th {
-      padding: 1rem;
+      background-color: var(--primary-dark);
+      color: white;
       font-weight: 600;
       text-align: left;
-      border-bottom: none;
+      padding: var(--table-header-padding);
+      position: relative;
       white-space: nowrap;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .table th:first-child {
+      border-top-left-radius: var(--table-border-radius);
+      border-left: none;
+    }
+
+    .table th:last-child {
+      border-top-right-radius: var(--table-border-radius);
+      border-right: none;
     }
 
     .table td {
-      padding: 1rem;
+      padding: var(--table-cell-padding);
+      border-bottom: 1px solid #edf2f7;
       vertical-align: middle;
-      border-top: 1px solid #edf2f7;
-      word-wrap: break-word;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table tr:last-child td:first-child {
+      border-bottom-left-radius: var(--table-border-radius);
+    }
+
+    .table tr:last-child td:last-child {
+      border-bottom-right-radius: var(--table-border-radius);
     }
 
     .table tr:hover td {
-      background-color: #f8fafc;
+      background-color: var(--primary-accent-light);
     }
 
-    .sortable-header {
-      cursor: pointer;
-      user-select: none;
-      position: relative;
-      transition: var(--transition);
-    }
+  /* Column width adjustments */
+  .table th:nth-child(1), .table td:nth-child(1) { width: 22%; } /* Name */
+  .table th:nth-child(2), .table td:nth-child(2) { width: 12%; } /* ID */
+  .table th:nth-child(3), .table td:nth-child(3) { width: 18%; } /* Course */
+  .table th:nth-child(4), .table td:nth-child(4) { width: 15%; } /* Section */
+  .table th:nth-child(5), .table td:nth-child(5) { width: 13%; } /* Status */
+  .table th:nth-child(6), .table td:nth-child(6) { width: 20%; } /* Timestamp */
 
-    .sortable-header:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+  /* Sortable headers */
+  .sortable-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: var(--transition);
+    padding-right: 1.5rem;
+  }
 
-    .sortable-header i {
-      margin-left: 0.5rem;
-      opacity: 0.7;
-      font-size: 0.8rem;
-    }
+  .sortable-header i {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
 
-    /* Status Badges */
-    .status-badge {
-      padding: 0.4rem 0.75rem;
-      border-radius: 50px;
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: inline-block;
-      min-width: 80px;
-      text-align: center;
-      text-transform: capitalize;
-      letter-spacing: 0.5px;
-    }
+  /* Status Badges */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: 80px;
+    max-width: 100%;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+  }
 
-    .status-present {
-      background-color: var(--success);
-    }
-
-    .status-absent {
-      background-color: var(--danger);
-    }
-
-    .status-late {
-      background-color: var(--warning);
-    }
-
-    /* Empty State */
+  /* Empty State */
     .empty-state {
       text-align: center;
       padding: 3rem;
       color: var(--secondary);
     }
 
-    .empty-state i {
+    .empty-state-icon {
       font-size: 3rem;
       margin-bottom: 1rem;
       color: #cbd5e0;
@@ -409,8 +527,12 @@
 
     .empty-state p {
       font-size: 1rem;
-      margin-bottom: 0;
+      margin-bottom: 1.5rem;
       color: var(--secondary);
+    }
+
+    .empty-state .btn {
+      margin-top: 1rem;
     }
 
     /* Loading Spinner */
@@ -465,11 +587,330 @@
       align-items: center;
       gap: 0.75rem;
       transition: var(--transition);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
     }
 
     .mobile-menu-btn:hover {
       background: #2c5282;
+    }
+
+    /* Modal Styles */
+    .modal-content {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, #34495e 100%);
+      color: white;
+      padding: 1.25rem;
+      border-bottom: none;
+    }
+
+    .modal-title {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    /* Skeleton Loading */
+    .skeleton-row td {
+      position: relative;
+      overflow: hidden;
+      height: 40px;
+    }
+
+    .skeleton-row td::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+
+   /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+      .filters {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      
+      .table th:nth-child(4), .table td:nth-child(4) { width: 16%; } /* Email */
+      .table th:nth-child(6), .table td:nth-child(6) { width: 14%; } /* Course/Section */
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .mobile-menu-btn {
+        display: flex;
+      }
+      
+      .table {
+        font-size: 0.85rem;
+      }
+      
+      .table th, .table td {
+        padding: 0.625rem 0.75rem;
+      }
+    
+    .table th:nth-child(1), .table td:nth-child(1) { width: 18%; }
+    .table th:nth-child(2), .table td:nth-child(2) { width: 10%; }
+    .table th:nth-child(3), .table td:nth-child(3) { width: 15%; }
+    .table th:nth-child(4), .table td:nth-child(4) { width: 12%; }
+    .table th:nth-child(5), .table td:nth-child(5) { width: 12%; }
+    .table th:nth-child(6), .table td:nth-child(6) { width: 20%; }
+    
+    .status-badge {
+      width: 70px;
+      padding: 0.3rem 0.4rem;
+      font-size: 0.7rem;
+    }
+  }
+
+ @media (max-width: 768px) {
+      .content-area {
+        padding: 1.5rem;
+      }
+      
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.25rem;
+      }
+      
+      .page-header-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      
+      .table-container {
+        padding: 1rem;
+        border-radius: 0.375rem;
+      }
+      
+      .table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .table thead {
+        display: none;
+      }
+      
+      .table tbody {
+        display: block;
+        width: 100%;
+      }
+      
+      .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        background: white;
+        position: relative;
+      }
+      
+      .table tr:last-child {
+        margin-bottom: 0;
+      }
+      
+      .table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #edf2f7;
+        width: 100% !important;
+      }
+      
+      .table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-right: auto;
+        padding-right: 1rem;
+        text-align: left;
+      }
+      
+      .table td:last-child {
+        border-bottom: none;
+      }
+      
+      .status-badge {
+        margin-left: auto;
+      }
+      
+      .action-buttons {
+        justify-content: flex-end;
+        width: 100%;
+      }
+    
+    .table th:nth-child(1), .table td:nth-child(1) { width: 22%; }
+    .table th:nth-child(2), .table td:nth-child(2) { width: 12%; }
+    .table th:nth-child(3), .table td:nth-child(3) { width: 18%; }
+    .table th:nth-child(4), .table td:nth-child(4) { width: 15%; }
+    .table th:nth-child(5), .table td:nth-child(5) { width: 13%; }
+    .table th:nth-child(6), .table td:nth-child(6) { width: 20%; }
+    
+    .status-badge {
+      width: 65px;
+      padding: 0.25rem 0.35rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .table-container {
+      padding: 0.5rem;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      border-radius: 0;
+    }
+    
+    .table {
+      --table-cell-padding: 0.4rem 0.5rem;
+      --table-font-size: 0.75rem;
+    }
+    
+    .status-badge {
+      width: 60px;
+      font-size: 0.65rem;
+    }
+  }
+
+    .status-present {
+      background-color: var(--success-light);
+      color: var(--success);
+    }
+
+    .status-absent {
+      background-color: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .status-late {
+      background-color: var(--warning-light);
+      color: var(--warning);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--secondary);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #cbd5e0;
+      opacity: 0.7;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
+    }
+
+    .empty-state .btn {
+      margin-top: 1rem;
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 10;
+      border-radius: var(--border-radius);
+    }
+
+    .loading-spinner p {
+      margin-top: 1rem;
+      color: var(--secondary);
+      font-size: 0.95rem;
+    }
+
+    .spinner-border {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-width: 0.25rem;
+    }
+
+    /* Student Count */
+    .student-count {
+      font-size: 0.9rem;
+      color: var(--secondary);
+      margin-top: 1rem;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: var(--primary-dark);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      align-items: center;
+      gap: 0.75rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .mobile-menu-btn:hover {
+      background: #2c5282;
+    }
+
+    /* Overlay for mobile menu */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
     }
 
     /* Responsive Adjustments */
@@ -501,6 +942,10 @@
       .table th, .table td {
         padding: 0.75rem;
       }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
     }
 
     @media (max-width: 768px) {
@@ -512,22 +957,15 @@
         grid-template-columns: 1fr;
       }
       
-      .action-buttons {
-        justify-content: flex-start;
-      }
-      
-      .header-container {
+      .page-header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         padding: 1.25rem;
       }
       
-      .user-profile {
+      .page-header-actions {
         width: 100%;
-        justify-content: space-between;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid #eee;
+        justify-content: flex-end;
       }
       
       .table-container {
@@ -551,11 +989,11 @@
         padding: 1rem;
       }
       
-      .header-container {
+      .page-header {
         padding: 1rem;
       }
       
-      .page-header h1 {
+      .page-title {
         font-size: 1.5rem;
       }
       
@@ -564,16 +1002,11 @@
         font-size: 0.8rem;
       }
       
-      .btn-download {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-      }
-      
       .empty-state {
         padding: 2rem 1rem;
       }
       
-      .empty-state i {
+      .empty-state-icon {
         font-size: 2.5rem;
       }
     }
@@ -588,22 +1021,10 @@
       animation: fadeIn 0.3s ease-out forwards;
     }
 
-    /* Overlay for mobile menu */
-    .sidebar-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none;
-    }
-
-    @media (max-width: 992px) {
-      .sidebar-overlay.active {
-        display: block;
-      }
+    /* Focus styles for accessibility */
+    *:focus {
+      outline: 2px solid var(--primary-accent);
+      outline-offset: 2px;
     }
   </style>
 </head>
@@ -615,21 +1036,28 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h3><i class="fas fa-university"></i> AttendEase</h3>
+        <h3><span>AttendEase</span></h3>
       </div>
       
-      <nav class="nav-menu">
-        <div class="nav-item">
-          <a href="#" class="nav-link active">
-            <i class="fas fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-          </a>
+      <nav class="nav-menu" aria-label="Main navigation">
+        <div class="nav-group">
+          <p class="nav-group-title">Attendance</p>
+          <div class="nav-item">
+            <a href="adminattendance.html" class="nav-link active" aria-current="page">
+              <i class="fas fa-calendar-check"></i>
+              <span>Dashboard</span>
+            </a>
+          </div>
         </div>
-        <div class="nav-item">
-          <a href="adminaccountcontrol.html" class="nav-link">
-            <i class="fas fa-user-cog"></i>
-            <span>Account Control</span>
-          </a>
+        
+        <div class="nav-group">
+          <p class="nav-group-title">Management</p>
+          <div class="nav-item">
+            <a href="adminaccountcontrol.html" class="nav-link">
+              <i class="fas fa-users-cog"></i>
+              <span>Account Control</span>
+            </a>
+          </div>
         </div>
       </nav>
       
@@ -640,7 +1068,7 @@
             <span class="user-name">Admin User</span>
             <span class="user-role">Administrator</span>
           </div>
-          <button class="logout-btn" id="logoutBtn">
+          <button class="logout-btn" id="logoutBtn" aria-label="Logout">
             <i class="fas fa-sign-out-alt"></i>
           </button>
         </div>
@@ -650,44 +1078,62 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="content-area">
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="sidebar">
           <i class="fas fa-bars"></i>
           <span>Menu</span>
         </button>
 
-        <div class="header-container">
-          <div class="page-header">
-            <h1>Attendance Dashboard</h1>
-            <p>View and manage student attendance records</p>
+        <div class="page-header">
+          <div class="page-header-content">
+            <h1>
+              <span class="page-title">Attendance Dashboard</span>
+            </h1>
+            <p class="page-description">View and manage student attendance records</p>
           </div>
-          
+          <div class="page-header-actions">
+            <button class="btn btn-primary" id="downloadBtn">
+              <i class="fas fa-file-pdf"></i>
+              <span>Export PDF</span>
+            </button>
+          </div>
         </div>
 
         <div class="filters-container">
+          <div class="filters-header">
+            <h4>Filter Attendance</h4>
+            <button class="btn-reset" id="resetFilters">Reset Filters</button>
+          </div>
           <div class="filters">
             <div class="filter-group">
-              <label for="sectionInput">Section</label>
-              <input class="form-control" list="sectionList" id="sectionInput" placeholder="Select section...">
+              <label for="sectionInput" class="filter-label">
+                <i class="fas fa-users"></i>
+                Section
+              </label>
+              <div class="input-with-icon">
+                <input class="form-control" list="sectionList" id="sectionInput" placeholder="Select section...">
+              </div>
               <datalist id="sectionList"></datalist>
             </div>
             <div class="filter-group">
-              <label for="searchInput">Search Students</label>
-              <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+              <label for="searchInput" class="filter-label">
+                <i class="fas fa-search"></i>
+                Search Students
+              </label>
+              <div class="input-with-icon">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+              </div>
             </div>
             <div class="filter-group">
-              <label for="statusFilter">Status</label>
+              <label for="statusFilter" class="filter-label">
+                <i class="fas fa-filter"></i>
+                Status
+              </label>
               <select class="form-select" id="statusFilter">
                 <option value="all" selected>All Status</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
                 <option value="late">Late</option>
               </select>
-            </div>
-            <div class="action-buttons">
-              <button class="btn-download" id="downloadBtn">
-                <i class="fas fa-file-pdf"></i>
-                <span>Export PDF</span>
-              </button>
             </div>
           </div>
         </div>
@@ -700,27 +1146,33 @@
             <p>Loading attendance data...</p>
           </div>
           
-          <table class="table">
+          <table class="table" aria-describedby="studentCount">
             <thead>
               <tr>
-                <th class="sortable-header">Student Name <i class="fas fa-sort"></i></th>
-                <th class="sortable-header">Student ID <i class="fas fa-sort"></i></th>
-                <th class="sortable-header">Course <i class="fas fa-sort"></i></th>
-                <th class="sortable-header">Section <i class="fas fa-sort"></i></th>
+                <th class="sortable-header" data-sort-key="name">Student Name </th>
+                <th class="sortable-header" data-sort-key="id">Student ID </th>
+                <th class="sortable-header" data-sort-key="course">Course </th>
+                <th class="sortable-header" data-sort-key="section">Section </th>
                 <th>Status</th>
-                <th class="sortable-header">Timestamp <i class="fas fa-sort"></i></th>
+                <th class="sortable-header" data-sort-key="timestamp">Timestamp </th>
               </tr>
             </thead>
             <tbody id="studentTableBody">
               <tr>
                 <td colspan="6" class="empty-state">
-                  <i class="fas fa-clipboard-list"></i>
+                  <div class="empty-state-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                  </div>
                   <p>No data available. Select a section first.</p>
+                  <button class="btn btn-outline" id="refreshData">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Data
+                  </button>
                 </td>
               </tr>
             </tbody>
           </table>
-          <p id="studentCount" class="student-count"></p>
+          <p id="studentCount" class="student-count">Showing 0 students</p>
         </div>
       </div>
     </main>
@@ -738,18 +1190,104 @@
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.querySelector('.sidebar');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const resetFilters = document.getElementById('resetFilters');
+    const refreshData = document.getElementById('refreshData');
+    const sortableHeaders = document.querySelectorAll('.sortable-header');
 
     // Mobile menu toggle
     mobileMenuBtn.addEventListener('click', () => {
+      const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+      mobileMenuBtn.setAttribute('aria-expanded', !expanded);
       sidebar.classList.toggle('active');
       sidebarOverlay.classList.toggle('active');
     });
 
     // Close sidebar when clicking overlay
     sidebarOverlay.addEventListener('click', () => {
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
       sidebar.classList.remove('active');
       sidebarOverlay.classList.remove('active');
     });
+
+    // Reset filters
+    resetFilters.addEventListener('click', () => {
+      sectionInput.value = '';
+      searchInput.value = '';
+      statusFilter.value = 'all';
+      applyFilters();
+    });
+
+    // Refresh data
+    refreshData.addEventListener('click', () => {
+      if (window.currentSection) {
+        loadStudents(window.currentSection);
+      }
+    });
+
+    // Initialize sorting
+    sortableHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const sortKey = header.dataset.sortKey;
+        const isActive = header.classList.contains('active');
+        const sortOrder = isActive && header.classList.contains('asc') ? 'desc' : 'asc';
+        
+        // Reset all headers
+        sortableHeaders.forEach(h => {
+          h.classList.remove('active', 'asc', 'desc');
+          const icon = h.querySelector('i');
+          if (icon) icon.className = 'fas fa-sort';
+        });
+        
+        // Set current header state
+        header.classList.add('active', sortOrder);
+        const icon = header.querySelector('i');
+        if (icon) icon.className = sortOrder === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
+        
+        // Sort data
+        sortTable(sortKey, sortOrder);
+      });
+    });
+
+    function sortTable(key, order) {
+      if (!window.filteredStudents || window.filteredStudents.length === 0) return;
+      
+      window.filteredStudents.sort((a, b) => {
+        let valA, valB;
+        
+        switch(key) {
+          case 'name':
+            valA = a.full_name.toLowerCase();
+            valB = b.full_name.toLowerCase();
+            break;
+          case 'id':
+            valA = a.student_id;
+            valB = b.student_id;
+            break;
+          case 'course':
+            valA = a.course.toLowerCase();
+            valB = b.course.toLowerCase();
+            break;
+          case 'section':
+            valA = a.section.toLowerCase();
+            valB = b.section.toLowerCase();
+            break;
+          case 'timestamp':
+            valA = new Date(a.timestamp || 0);
+            valB = new Date(b.timestamp || 0);
+            return order === 'asc' ? valA - valB : valB - valA;
+          default:
+            return 0;
+        }
+        
+        if (order === 'asc') {
+          return valA.localeCompare(valB);
+        } else {
+          return valB.localeCompare(valA);
+        }
+      });
+      
+      renderTable();
+    }
 
     function loadSections() {
       const formData = new FormData();
@@ -767,12 +1305,12 @@
               datalist.appendChild(option);
             });
           } else {
-            alert('Failed to load section sheets.');
+            showAlert('Failed to load section sheets.', 'danger');
           }
         })
         .catch(err => {
           console.error(err);
-          alert('Error fetching section sheets.');
+          showAlert('Error fetching section sheets.', 'danger');
         });
     }
 
@@ -790,16 +1328,39 @@
           loadingSpinner.style.display = 'none';
           if (data.success && data.classmates.length > 0) {
             window.allStudents = data.classmates;
+            window.filteredStudents = [...data.classmates];
             applyFilters();
           } else {
-            studentTableBody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-user-slash"></i><p>No students found.</p></td></tr>';
+            studentTableBody.innerHTML = `
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <div class="empty-state-icon">
+                    <i class="fas fa-user-slash"></i>
+                  </div>
+                  <p>No students found in this section.</p>
+                </td>
+              </tr>
+            `;
             studentCount.textContent = 'Showing 0 students';
           }
         })
         .catch(err => {
           loadingSpinner.style.display = 'none';
           console.error(err);
-          studentTableBody.innerHTML = '<tr><td colspan="6" class="empty-state text-danger"><i class="fas fa-exclamation-triangle"></i><p>Failed to load students.</p></td></tr>';
+          studentTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="empty-state text-danger">
+                <div class="empty-state-icon">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <p>Failed to load students. Please try again.</p>
+                <button class="btn btn-outline" onclick="loadStudents('${section}')">
+                  <i class="fas fa-sync-alt"></i>
+                  Retry
+                </button>
+              </td>
+            </tr>
+          `;
         });
     }
 
@@ -807,7 +1368,7 @@
       const statusVal = statusFilter.value;
       const query = searchInput.value.toLowerCase();
 
-      const filtered = window.allStudents.filter(student => {
+      window.filteredStudents = window.allStudents.filter(student => {
         const status = student.status?.toLowerCase() || 'absent';
         const nameMatch = student.full_name.toLowerCase().includes(query);
         const statusMatch =
@@ -819,15 +1380,32 @@
         return nameMatch && statusMatch;
       });
 
+      renderTable();
+    }
+
+    function renderTable() {
       studentTableBody.innerHTML = '';
 
-      if (filtered.length === 0) {
-        studentTableBody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-search"></i><p>No matching students found.</p></td></tr>';
+      if (!window.filteredStudents || window.filteredStudents.length === 0) {
+        studentTableBody.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              <div class="empty-state-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <p>No matching students found.</p>
+              <button class="btn btn-outline" onclick="resetFilters.click()">
+                <i class="fas fa-filter"></i>
+                Clear Filters
+              </button>
+            </td>
+          </tr>
+        `;
         studentCount.textContent = 'Showing 0 students';
         return;
       }
 
-      filtered.forEach(student => {
+      window.filteredStudents.forEach(student => {
         const status = student.status?.toLowerCase() || 'absent';
         const statusClass =
           status === 'present' ? 'status-present' :
@@ -848,7 +1426,7 @@
         studentTableBody.appendChild(row);
       });
 
-      studentCount.textContent = `Showing ${filtered.length} student(s)`;
+      studentCount.textContent = `Showing ${window.filteredStudents.length} student(s)`;
     }
 
     function formatTimestamp(timestamp) {
@@ -860,7 +1438,35 @@
       });
     }
 
+    function showAlert(message, type = 'success') {
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type} fade-in`;
+      alert.style.position = 'fixed';
+      alert.style.top = '20px';
+      alert.style.right = '20px';
+      alert.style.zIndex = '1100';
+      alert.style.maxWidth = '400px';
+      alert.innerHTML = `
+        <div class="d-flex align-items-center">
+          <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+          <span>${message}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(alert);
+      
+      setTimeout(() => {
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 300);
+      }, 3000);
+    }
+
     downloadBtn.addEventListener('click', () => {
+      if (!window.filteredStudents || window.filteredStudents.length === 0) {
+        showAlert('No data available to export.', 'warning');
+        return;
+      }
+
       const doc = new jspdf.jsPDF();
       const today = new Date();
       const formattedDate = today.toLocaleDateString('en-US', {
@@ -870,24 +1476,14 @@
 
       const fileName = `Attendance_${window.currentSection || 'Unknown'}_${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.pdf`;
 
-      const dataRows = Array.from(studentTableBody.querySelectorAll('tr'))
-        .map(row => {
-          const cols = row.querySelectorAll('td');
-          if (cols.length === 6) {
-            return [
-              cols[0].textContent.trim(),
-              cols[1].textContent.trim(),
-              cols[2].textContent.trim(),
-              cols[4].textContent.trim(),
-              cols[5].textContent.trim()
-            ];
-          }
-        }).filter(Boolean);
-
-      if (dataRows.length === 0) {
-        alert('No data to export.');
-        return;
-      }
+      const dataRows = window.filteredStudents.map(student => [
+        student.full_name,
+        student.student_id,
+        student.course,
+        student.section,
+        student.status?.charAt(0).toUpperCase() + student.status?.slice(1) || 'Absent',
+        formatTimestamp(student.timestamp)
+      ]);
 
       doc.setFontSize(16);
       doc.text(`Attendance Report - ${window.currentSection || 'Unknown'}`, 14, 20);
@@ -895,7 +1491,7 @@
       doc.text(`Generated on: ${formattedDate}`, 14, 26);
 
       doc.autoTable({
-        head: [['Name', 'ID', 'Course', 'Status', 'Timestamp']],
+        head: [['Name', 'ID', 'Course', 'Section', 'Status', 'Timestamp']],
         body: dataRows,
         startY: 35,
         theme: 'grid',
@@ -911,6 +1507,7 @@
       });
 
       doc.save(fileName);
+      showAlert('PDF exported successfully!');
     });
 
     sectionInput.addEventListener('input', () => {
@@ -924,32 +1521,18 @@
     statusFilter.addEventListener('change', applyFilters);
     searchInput.addEventListener('input', applyFilters);
 
+    // Initialize
     loadSections();
   </script>
   
   <script>
-    logoutBtn.addEventListener('click', () => {
-      // Add your logout logic here
+    document.getElementById('logoutBtn').addEventListener('click', () => {
       if (confirm('Are you sure you want to logout?')) {
-        window.location.href = 'index.html'; // Change to your logout URL
+        // Clear session or any admin auth tokens
+        sessionStorage.removeItem('admin_logged_in');
+        window.location.href = 'index.html';
       }
     });
-  </script>
-  
-  <script>
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     // Check admin login status
-    //     if (sessionStorage.getItem('admin_logged_in') !== 'true') {
-    //         window.location.href = 'admin-login.html';
-    //         return;
-    //     }
-    //
-    //     // Setup event listeners
-    //     setupEventListeners();
-    //     
-    //     // Load initial data
-    //     loadSections();
-    // }); 
   </script>
 </body>
 </html>
