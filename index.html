@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <script src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+<script>
+    DisableDevtool({
+    });
+    document.addEventListener('keydown', e => {
+      if (
+        (e.ctrlKey && e.key.toLowerCase() === 's') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'c') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'v') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'x') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'a') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'p')   
+      ) {
+        e.preventDefault();
+      }
+    });
+</script>
   <style>
     :root {
       --primary: #4361ee;
