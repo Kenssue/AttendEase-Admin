@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+<script>
+    DisableDevtool({
+    });
+    document.addEventListener('keydown', e => {
+      if (
+        (e.ctrlKey && e.key.toLowerCase() === 's') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'c') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'v') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'x') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'a') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'p')   
+      ) {
+        e.preventDefault();
+      }
+    });
+</script>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4cc9f0;
+      --dark: #1a1a2e;
+      --light: rgba(255, 255, 255, 0.9);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+      --border-radius: 12px;
+      --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      --success: #4ade80;
+      --error: #ff6b6b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--dark), #16213e);
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--light);
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: -1;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 0 1.5rem;
+    }
+
+    .login-box {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: 2.5rem 2rem;
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      position: relative;
+      transition: var(--transition);
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .login-box::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(76, 201, 240, 0.1) 50%,
+        transparent 100%
+      );
+      transform: rotate(30deg);
+      z-index: -1;
+      pointer-events: none;
+      animation: shine 6s infinite linear;
+    }
+
+    @keyframes shine {
+      0% { transform: rotate(30deg) translate(-30%, -30%); }
+      100% { transform: rotate(30deg) translate(30%, 30%); }
+    }
+
+    .login-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header h2 {
+      color: var(--light);
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px 14px 42px;
+      border-radius: var(--border-radius);
+      border: var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 65%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(67, 97, 238, 0.4);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.6);
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .message {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      min-height: 20px;
+      padding: 12px;
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(5px);
+    }
+
+    .message.error {
+      color: var(--error);
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.2);
+    }
+
+    .message.success {
+      color: var(--success);
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+    }
+
+    /* Floating bubbles background */
+    .bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 2rem 1.5rem;
+      }
+      
+      .login-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+
+<script>
+  document.getElementById("logoutBtn")?.addEventListener("click", () => {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "admin-login.html";
+  });
+</script>
+
+
+
+</head>
+<body>
+  <div class="bubbles" id="bubbles"></div>
+  
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <h2>Admin Login</h2>
+        <p>Secure access to admin dashboard</p>
+      </div>
+
+      <form id="loginForm">
+        <!-- Password Entry -->
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="input-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+
+        <!-- OTP Entry -->
+        <div class="input-group">
+          <label for="otp">One-Time Password</label>
+          <div class="input-icon">
+            <i class="fas fa-key"></i>
+          </div>
+          <input type="text" id="otp" placeholder="Enter OTP code" required>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" onclick="generateOTP()">
+            <i class="fas fa-sync-alt"></i>
+            Generate OTP
+          </button>
+          <button type="button" onclick="adminLogin()">
+            <i class="fas fa-sign-in-alt"></i>
+            Login
+          </button>
+        </div>
+
+        <div class="message" id="response"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz63OKge1spLhJ9xFcEcHeYQ5vaZNh4OYrPpM8ZrL1GU-iQU8WrJSWz7d3M0AJmsG35/exec";
+
+    function showMessage(msg, isSuccess = false) {
+      const responseDiv = document.getElementById("response");
+      responseDiv.textContent = msg;
+      responseDiv.className = isSuccess ? "message success" : "message error";
+    }
+
+    function generateOTP() {
+      const password = document.getElementById("password").value.trim();
+      const spinner = document.getElementById("spinner");
+      const generateBtn = document.querySelector('button[onclick="generateOTP()"]');
+
+      if (!password) {
+        showMessage("Please enter your password first to generate OTP.");
+        return;
+      }
+
+      // Show loading state
+      generateBtn.innerHTML = '<div class="spinner" style="display: inline-block;"></div> Generating...';
+      showMessage("");
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({
+          action: "generate_otp",
+          password: password
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Reset button state
+        generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate OTP';
+        showMessage(data.message, data.success);
+      })
+      .catch(err => {
+        generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate OTP';
+        showMessage("Network error: " + err.message);
+      });
+    }
+
+    function adminLogin() {
+      const otp = document.getElementById("otp").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const loginBtn = document.querySelector('button[onclick="adminLogin()"]');
+
+      if (!otp || !password) {
+        showMessage("Please enter both OTP and password.");
+        return;
+      }
+
+      // Show loading state
+      loginBtn.innerHTML = '<div class="spinner" style="display: inline-block;"></div> Logging in...';
+      showMessage("");
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({
+          action: "admin_login",
+          otp: otp,
+          password: password
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          showMessage("Login successful! Redirecting...", true);
+          sessionStorage.setItem("admin_logged_in", "true");
+          setTimeout(() => {
+            window.location.href = "adminattendance.html";
+          }, 500);
+        } else {
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+          showMessage(data.message);
+        }
+      })
+      .catch(err => {
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        showMessage("Network error: " + err.message);
+      });
+    }
+  </script>
+  <script>
+    // Create floating bubbles
+    function createBubbles() {
+      const bubbles = document.getElementById('bubbles');
+      const bubbleCount = 15;
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 20 + 10;
+        
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${posX}%`;
+        bubble.style.animationDuration = `${duration}s`;
+        bubble.style.animationDelay = `${delay}s`;
+        
+        bubbles.appendChild(bubble);
+      }
+    }
+    
+    createBubbles();
+  </script>
+</body>
+</html>
