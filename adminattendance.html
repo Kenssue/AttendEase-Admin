@@ -1058,520 +1058,582 @@
       outline: 2px solid var(--primary-accent);
       outline-offset: 2px;
     }
+    .btn-outline-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--danger);
+  color: white;
+}
   </style>
-</head>
-<body>
-  <div class="dashboard-container">
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h3><span>AttendEase</span></h3>
-      </div>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar Overlay -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
       
-      <nav class="nav-menu" aria-label="Main navigation">
-        <div class="nav-group">
-          <p class="nav-group-title">Attendance</p>
-          <div class="nav-item">
-            <a href="adminattendance.html" class="nav-link active" aria-current="page">
-              <i class="fas fa-calendar-check"></i>
-              <span>Dashboard</span>
-            </a>
-          </div>
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3><span>AttendEase</span></h3>
         </div>
         
-        <div class="nav-group">
-          <p class="nav-group-title">Management</p>
-          <div class="nav-item">
-            <a href="adminaccountcontrol.html" class="nav-link">
-              <i class="fas fa-users-cog"></i>
-              <span>Account Control</span>
-            </a>
+        <nav class="nav-menu" aria-label="Main navigation">
+          <div class="nav-group">
+            <p class="nav-group-title">Attendance</p>
+            <div class="nav-item">
+              <a href="adminattendance.html" class="nav-link active" aria-current="page">
+                <i class="fas fa-calendar-check"></i>
+                <span>Dashboard</span>
+              </a>
+            </div>
           </div>
-        </div>
-      </nav>
-      
-      <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="user-avatar">AD</div>
-          <div class="user-info">
-            <span class="user-name">Admin User</span>
-            <span class="user-role">Administrator</span>
+          
+          <div class="nav-group">
+            <p class="nav-group-title">Management</p>
+            <div class="nav-item">
+              <a href="adminaccountcontrol.html" class="nav-link">
+                <i class="fas fa-users-cog"></i>
+                <span>Account Control</span>
+              </a>
+            </div>
           </div>
-          <button class="logout-btn" id="logoutBtn" aria-label="Logout">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <div class="content-area">
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="sidebar">
-          <i class="fas fa-bars"></i>
-          <span>Menu</span>
-        </button>
-
-        <div class="page-header">
-          <div class="page-header-content">
-            <h1>
-              <span class="page-title">Attendance Dashboard</span>
-            </h1>
-            <p class="page-description">View and manage student attendance records</p>
-          </div>
-          <div class="page-header-actions">
-            <button class="btn btn-primary" id="downloadBtn">
-              <i class="fas fa-file-pdf"></i>
-              <span>Export PDF</span>
+        </nav>
+        
+        <div class="sidebar-footer">
+          <div class="user-profile">
+            <div class="user-avatar">AD</div>
+            <div class="user-info">
+              <span class="user-name">Admin User</span>
+              <span class="user-role">Administrator</span>
+            </div>
+            <button class="logout-btn" id="logoutBtn" aria-label="Logout">
+              <i class="fas fa-sign-out-alt"></i>
             </button>
           </div>
         </div>
+      </aside>
 
-        <div class="filters-container">
-          <div class="filters-header">
-            <h4>Filter Attendance</h4>
-            <button class="btn-reset" id="resetFilters">Reset Filters</button>
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="content-area">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="sidebar">
+            <i class="fas fa-bars"></i>
+            <span>Menu</span>
+          </button>
+
+          <div class="page-header">
+            <div class="page-header-content">
+              <h1>
+                <span class="page-title">Attendance Dashboard</span>
+              </h1>
+              <p class="page-description">View and manage student attendance records</p>
+            </div>
+            <div class="page-header-actions">
+              <button class="btn btn-outline-danger me-2" id="clearAttendanceBtn">
+                <i class="fas fa-broom"></i>
+                <span>Clear Attendance Status and Timestamp</span>
+              </button>
+              <button class="btn btn-primary" id="downloadBtn">
+                <i class="fas fa-file-pdf"></i>
+                <span>Export PDF</span>
+              </button>
+            </div>
           </div>
-          <div class="filters">
-            <div class="filter-group">
-              <label for="sectionInput" class="filter-label">
-                <i class="fas fa-users"></i>
-                Section
-              </label>
-              <div class="input-with-icon">
-                <input class="form-control" list="sectionList" id="sectionInput" placeholder="Select section...">
+
+
+          <div class="filters-container">
+            <div class="filters-header">
+              <h4>Filter Attendance</h4>
+              <button class="btn-reset" id="resetFilters">Reset Filters</button>
+            </div>
+            <div class="filters">
+              <div class="filter-group">
+                <label for="sectionInput" class="filter-label">
+                  <i class="fas fa-users"></i>
+                  Section
+                </label>
+                <div class="input-with-icon">
+                  <input class="form-control" list="sectionList" id="sectionInput" placeholder="Select section...">
+                </div>
+                <datalist id="sectionList"></datalist>
               </div>
-              <datalist id="sectionList"></datalist>
-            </div>
-            <div class="filter-group">
-              <label for="searchInput" class="filter-label">
-                <i class="fas fa-search"></i>
-                Search Students
-              </label>
-              <div class="input-with-icon">
-                <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+              <div class="filter-group">
+                <label for="searchInput" class="filter-label">
+                  <i class="fas fa-search"></i>
+                  Search Students
+                </label>
+                <div class="input-with-icon">
+                  <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+                </div>
+              </div>
+              <div class="filter-group">
+                <label for="statusFilter" class="filter-label">
+                  <i class="fas fa-filter"></i>
+                  Status
+                </label>
+                <select class="form-select" id="statusFilter">
+                  <option value="all" selected>All Status</option>
+                  <option value="present">Present</option>
+                  <option value="absent">Absent</option>
+                </select>
               </div>
             </div>
-            <div class="filter-group">
-              <label for="statusFilter" class="filter-label">
-                <i class="fas fa-filter"></i>
-                Status
-              </label>
-              <select class="form-select" id="statusFilter">
-                <option value="all" selected>All Status</option>
-                <option value="present">Present</option>
-                <option value="absent">Absent</option>
-              </select>
+          </div>
+
+          <div class="table-container">
+            <div class="loading-spinner" id="loadingSpinner">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p>Loading attendance data...</p>
             </div>
+            
+            <table class="table" aria-describedby="studentCount">
+              <thead>
+                <tr>
+                  <th class="sortable-header" data-sort-key="name">Student Name </th>
+                  <th class="sortable-header" data-sort-key="id">Student ID </th>
+                  <th class="sortable-header" data-sort-key="course">Course </th>
+                  <th class="sortable-header" data-sort-key="section">Section </th>
+                  <th>Status</th>
+                  <th class="sortable-header" data-sort-key="timestamp">Timestamp </th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <tr>
+                  <td colspan="6" class="empty-state">
+                    <div class="empty-state-icon">
+                      <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <p>No data available. Select a section first.</p>
+                    <button class="btn btn-outline" id="refreshData">
+                      <i class="fas fa-sync-alt"></i>
+                      Refresh Data
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p id="studentCount" class="student-count">Showing 0 students</p>
           </div>
         </div>
+      </main>
+    </div>
 
-        <div class="table-container">
-          <div class="loading-spinner" id="loadingSpinner">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p>Loading attendance data...</p>
-          </div>
+    <script>
+
+      // Add this with your other DOM element references
+      clearAttendanceBtn.addEventListener('click', async () => {
+    if (!window.currentSection) {
+      showAlert('Please select a section first.', 'warning');
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to clear ALL attendance data for ${window.currentSection}? This will reset all statuses and timestamps.`)) {
+      return;
+    }
+
+    // Save original button state
+    const originalHTML = clearAttendanceBtn.innerHTML;
+    
+    try {
+      // Disable button and show spinner
+      clearAttendanceBtn.disabled = true;
+      clearAttendanceBtn.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+        Clearing...
+      `;
+
+      const formData = new FormData();
+      formData.append('action', 'clearSectionAttendance');
+      formData.append('section', window.currentSection);
+
+      const response = await fetch(scriptURL, { method: 'POST', body: formData });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const result = await response.text();
+      showAlert(result);
+      
+      // Reload the data after successful clearing
+      await loadStudents(window.currentSection);
+      
+    } catch (err) {
+      console.error('Error:', err);
+      showAlert('Failed to clear attendance. Please try again.', 'danger');
+    } finally {
+      // Always reset the button state
+      clearAttendanceBtn.disabled = false;
+      clearAttendanceBtn.innerHTML = originalHTML;
+    }
+  });
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwHF98p7BT3HkrgOUW3NSkRDs3KodkLjqg7yFpi_b35LoZeWjitZChQ6hmjJAn-NPW0/exec';
+      const sectionInput = document.getElementById('sectionInput');
+      const studentTableBody = document.getElementById('studentTableBody');
+      const studentCount = document.getElementById('studentCount');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const statusFilter = document.getElementById('statusFilter');
+      const searchInput = document.getElementById('searchInput');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const resetFilters = document.getElementById('resetFilters');
+      const refreshData = document.getElementById('refreshData');
+      const sortableHeaders = document.querySelectorAll('.sortable-header');
+
+      // Mobile menu toggle
+      mobileMenuBtn.addEventListener('click', () => {
+        const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+        mobileMenuBtn.setAttribute('aria-expanded', !expanded);
+        sidebar.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active');
+      });
+
+      // Close sidebar when clicking overlay
+      sidebarOverlay.addEventListener('click', () => {
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      });
+
+      // Reset filters
+      resetFilters.addEventListener('click', () => {
+        sectionInput.value = '';
+        searchInput.value = '';
+        statusFilter.value = 'all';
+        applyFilters();
+      });
+
+      // Refresh data
+      refreshData.addEventListener('click', () => {
+        if (window.currentSection) {
+          loadStudents(window.currentSection);
+        }
+      });
+
+      // Initialize sorting
+      sortableHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+          const sortKey = header.dataset.sortKey;
+          const isActive = header.classList.contains('active');
+          const sortOrder = isActive && header.classList.contains('asc') ? 'desc' : 'asc';
           
-          <table class="table" aria-describedby="studentCount">
-            <thead>
+          // Reset all headers
+          sortableHeaders.forEach(h => {
+            h.classList.remove('active', 'asc', 'desc');
+            const icon = h.querySelector('i');
+            if (icon) icon.className = 'fas fa-sort';
+          });
+          
+          // Set current header state
+          header.classList.add('active', sortOrder);
+          const icon = header.querySelector('i');
+          if (icon) icon.className = sortOrder === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
+          
+          // Sort data
+          sortTable(sortKey, sortOrder);
+        });
+      });
+
+      function sortTable(key, order) {
+        if (!window.filteredStudents || window.filteredStudents.length === 0) return;
+        
+        window.filteredStudents.sort((a, b) => {
+          let valA, valB;
+          
+          switch(key) {
+            case 'name':
+              valA = a.full_name.toLowerCase();
+              valB = b.full_name.toLowerCase();
+              break;
+            case 'id':
+              valA = a.student_id;
+              valB = b.student_id;
+              break;
+            case 'course':
+              valA = a.course.toLowerCase();
+              valB = b.course.toLowerCase();
+              break;
+            case 'section':
+              valA = a.section.toLowerCase();
+              valB = b.section.toLowerCase();
+              break;
+            case 'timestamp':
+              valA = new Date(a.timestamp || 0);
+              valB = new Date(b.timestamp || 0);
+              return order === 'asc' ? valA - valB : valB - valA;
+            default:
+              return 0;
+          }
+          
+          if (order === 'asc') {
+            return valA.localeCompare(valB);
+          } else {
+            return valB.localeCompare(valA);
+          }
+        });
+        
+        renderTable();
+      }
+
+      function loadSections() {
+        const formData = new FormData();
+        formData.append('action', 'getSectionSheets');
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+          .then(res => res.json())
+          .then(data => {
+            const datalist = document.getElementById('sectionList');
+            datalist.innerHTML = '';
+            if (data.success && Array.isArray(data.sections)) {
+              data.sections.forEach(section => {
+                const option = document.createElement('option');
+                option.value = section;
+                datalist.appendChild(option);
+              });
+            } else {
+              showAlert('Failed to load section sheets.', 'danger');
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            showAlert('Error fetching section sheets.', 'danger');
+          });
+      }
+
+      function loadStudents(section) {
+        loadingSpinner.style.display = 'flex';
+        studentTableBody.innerHTML = '';
+
+        const formData = new FormData();
+        formData.append('action', 'getClassmatesBySection');
+        formData.append('section', section);
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+          .then(res => res.json())
+          .then(data => {
+            loadingSpinner.style.display = 'none';
+            if (data.success && data.classmates.length > 0) {
+              window.allStudents = data.classmates;
+              window.filteredStudents = [...data.classmates];
+              applyFilters();
+            } else {
+              studentTableBody.innerHTML = `
+                <tr>
+                  <td colspan="6" class="empty-state">
+                    <div class="empty-state-icon">
+                      <i class="fas fa-user-slash"></i>
+                    </div>
+                    <p>No students found in this section.</p>
+                  </td>
+                </tr>
+              `;
+              studentCount.textContent = 'Showing 0 students';
+            }
+          })
+          .catch(err => {
+            loadingSpinner.style.display = 'none';
+            console.error(err);
+            studentTableBody.innerHTML = `
               <tr>
-                <th class="sortable-header" data-sort-key="name">Student Name </th>
-                <th class="sortable-header" data-sort-key="id">Student ID </th>
-                <th class="sortable-header" data-sort-key="course">Course </th>
-                <th class="sortable-header" data-sort-key="section">Section </th>
-                <th>Status</th>
-                <th class="sortable-header" data-sort-key="timestamp">Timestamp </th>
-              </tr>
-            </thead>
-            <tbody id="studentTableBody">
-              <tr>
-                <td colspan="6" class="empty-state">
+                <td colspan="6" class="empty-state text-danger">
                   <div class="empty-state-icon">
-                    <i class="fas fa-clipboard-list"></i>
+                    <i class="fas fa-exclamation-triangle"></i>
                   </div>
-                  <p>No data available. Select a section first.</p>
-                  <button class="btn btn-outline" id="refreshData">
+                  <p>Failed to load students. Please try again.</p>
+                  <button class="btn btn-outline" onclick="loadStudents('${section}')">
                     <i class="fas fa-sync-alt"></i>
-                    Refresh Data
+                    Retry
                   </button>
                 </td>
               </tr>
-            </tbody>
-          </table>
-          <p id="studentCount" class="student-count">Showing 0 students</p>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbze8AxkuZSphq9S2-lESnAkDZVh5CxBf2BC7jDgZj_qEZv3ciYWH5Vp-1UPcwVNGmM/exec';
-    const sectionInput = document.getElementById('sectionInput');
-    const studentTableBody = document.getElementById('studentTableBody');
-    const studentCount = document.getElementById('studentCount');
-    const loadingSpinner = document.getElementById('loadingSpinner');
-    const statusFilter = document.getElementById('statusFilter');
-    const searchInput = document.getElementById('searchInput');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.querySelector('.sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const resetFilters = document.getElementById('resetFilters');
-    const refreshData = document.getElementById('refreshData');
-    const sortableHeaders = document.querySelectorAll('.sortable-header');
-
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', () => {
-      const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-      mobileMenuBtn.setAttribute('aria-expanded', !expanded);
-      sidebar.classList.toggle('active');
-      sidebarOverlay.classList.toggle('active');
-    });
-
-    // Close sidebar when clicking overlay
-    sidebarOverlay.addEventListener('click', () => {
-      mobileMenuBtn.setAttribute('aria-expanded', 'false');
-      sidebar.classList.remove('active');
-      sidebarOverlay.classList.remove('active');
-    });
-
-    // Reset filters
-    resetFilters.addEventListener('click', () => {
-      sectionInput.value = '';
-      searchInput.value = '';
-      statusFilter.value = 'all';
-      applyFilters();
-    });
-
-    // Refresh data
-    refreshData.addEventListener('click', () => {
-      if (window.currentSection) {
-        loadStudents(window.currentSection);
-      }
-    });
-
-    // Initialize sorting
-    sortableHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const sortKey = header.dataset.sortKey;
-        const isActive = header.classList.contains('active');
-        const sortOrder = isActive && header.classList.contains('asc') ? 'desc' : 'asc';
-        
-        // Reset all headers
-        sortableHeaders.forEach(h => {
-          h.classList.remove('active', 'asc', 'desc');
-          const icon = h.querySelector('i');
-          if (icon) icon.className = 'fas fa-sort';
-        });
-        
-        // Set current header state
-        header.classList.add('active', sortOrder);
-        const icon = header.querySelector('i');
-        if (icon) icon.className = sortOrder === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
-        
-        // Sort data
-        sortTable(sortKey, sortOrder);
-      });
-    });
-
-    function sortTable(key, order) {
-      if (!window.filteredStudents || window.filteredStudents.length === 0) return;
-      
-      window.filteredStudents.sort((a, b) => {
-        let valA, valB;
-        
-        switch(key) {
-          case 'name':
-            valA = a.full_name.toLowerCase();
-            valB = b.full_name.toLowerCase();
-            break;
-          case 'id':
-            valA = a.student_id;
-            valB = b.student_id;
-            break;
-          case 'course':
-            valA = a.course.toLowerCase();
-            valB = b.course.toLowerCase();
-            break;
-          case 'section':
-            valA = a.section.toLowerCase();
-            valB = b.section.toLowerCase();
-            break;
-          case 'timestamp':
-            valA = new Date(a.timestamp || 0);
-            valB = new Date(b.timestamp || 0);
-            return order === 'asc' ? valA - valB : valB - valA;
-          default:
-            return 0;
-        }
-        
-        if (order === 'asc') {
-          return valA.localeCompare(valB);
-        } else {
-          return valB.localeCompare(valA);
-        }
-      });
-      
-      renderTable();
-    }
-
-    function loadSections() {
-      const formData = new FormData();
-      formData.append('action', 'getSectionSheets');
-
-      fetch(scriptURL, { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-          const datalist = document.getElementById('sectionList');
-          datalist.innerHTML = '';
-          if (data.success && Array.isArray(data.sections)) {
-            data.sections.forEach(section => {
-              const option = document.createElement('option');
-              option.value = section;
-              datalist.appendChild(option);
-            });
-          } else {
-            showAlert('Failed to load section sheets.', 'danger');
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          showAlert('Error fetching section sheets.', 'danger');
-        });
-    }
-
-    function loadStudents(section) {
-      loadingSpinner.style.display = 'flex';
-      studentTableBody.innerHTML = '';
-
-      const formData = new FormData();
-      formData.append('action', 'getClassmatesBySection');
-      formData.append('section', section);
-
-      fetch(scriptURL, { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-          loadingSpinner.style.display = 'none';
-          if (data.success && data.classmates.length > 0) {
-            window.allStudents = data.classmates;
-            window.filteredStudents = [...data.classmates];
-            applyFilters();
-          } else {
-            studentTableBody.innerHTML = `
-              <tr>
-                <td colspan="6" class="empty-state">
-                  <div class="empty-state-icon">
-                    <i class="fas fa-user-slash"></i>
-                  </div>
-                  <p>No students found in this section.</p>
-                </td>
-              </tr>
             `;
-            studentCount.textContent = 'Showing 0 students';
-          }
-        })
-        .catch(err => {
-          loadingSpinner.style.display = 'none';
-          console.error(err);
+          });
+      }
+
+      function applyFilters() {
+        const statusVal = statusFilter.value;
+        const query = searchInput.value.toLowerCase();
+
+        window.filteredStudents = window.allStudents.filter(student => {
+          const status = student.status?.toLowerCase() || 'absent';
+          const nameMatch = student.full_name.toLowerCase().includes(query);
+          const statusMatch =
+            statusVal === 'all' ||
+            (statusVal === 'present' && status === 'present') ||
+            (statusVal === 'absent' && status !== 'present') ||
+            (statusVal === 'late' && status === 'late');
+
+          return nameMatch && statusMatch;
+        });
+
+        renderTable();
+      }
+
+      function renderTable() {
+        studentTableBody.innerHTML = '';
+
+        if (!window.filteredStudents || window.filteredStudents.length === 0) {
           studentTableBody.innerHTML = `
             <tr>
-              <td colspan="6" class="empty-state text-danger">
+              <td colspan="6" class="empty-state">
                 <div class="empty-state-icon">
-                  <i class="fas fa-exclamation-triangle"></i>
+                  <i class="fas fa-search"></i>
                 </div>
-                <p>Failed to load students. Please try again.</p>
-                <button class="btn btn-outline" onclick="loadStudents('${section}')">
-                  <i class="fas fa-sync-alt"></i>
-                  Retry
+                <p>No matching students found.</p>
+                <button class="btn btn-outline" onclick="resetFilters.click()">
+                  <i class="fas fa-filter"></i>
+                  Clear Filters
                 </button>
               </td>
             </tr>
           `;
+          studentCount.textContent = 'Showing 0 students';
+          return;
+        }
+
+        window.filteredStudents.forEach(student => {
+          const status = student.status?.toLowerCase() || 'absent';
+          const statusClass =
+            status === 'present' ? 'status-present' :
+            status === 'late' ? 'status-late' :
+            'status-absent';
+
+          const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${student.full_name}</td>
+            <td>${student.student_id}</td>
+            <td>${student.course}</td>
+            <td>${student.section}</td>
+            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td>${formatTimestamp(student.timestamp)}</td>
+          `;
+          studentTableBody.appendChild(row);
         });
-    }
 
-    function applyFilters() {
-      const statusVal = statusFilter.value;
-      const query = searchInput.value.toLowerCase();
+        studentCount.textContent = `Showing ${window.filteredStudents.length} student(s)`;
+      }
 
-      window.filteredStudents = window.allStudents.filter(student => {
-        const status = student.status?.toLowerCase() || 'absent';
-        const nameMatch = student.full_name.toLowerCase().includes(query);
-        const statusMatch =
-          statusVal === 'all' ||
-          (statusVal === 'present' && status === 'present') ||
-          (statusVal === 'absent' && status !== 'present') ||
-          (statusVal === 'late' && status === 'late');
+      function formatTimestamp(timestamp) {
+        if (!timestamp) return 'Not recorded';
+        const date = new Date(timestamp);
+        return isNaN(date) ? 'Invalid date' : date.toLocaleString('en-US', {
+          year: 'numeric', month: 'short', day: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+      }
 
-        return nameMatch && statusMatch;
-      });
-
-      renderTable();
-    }
-
-    function renderTable() {
-      studentTableBody.innerHTML = '';
-
-      if (!window.filteredStudents || window.filteredStudents.length === 0) {
-        studentTableBody.innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              <div class="empty-state-icon">
-                <i class="fas fa-search"></i>
-              </div>
-              <p>No matching students found.</p>
-              <button class="btn btn-outline" onclick="resetFilters.click()">
-                <i class="fas fa-filter"></i>
-                Clear Filters
-              </button>
-            </td>
-          </tr>
+      function showAlert(message, type = 'success') {
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type} fade-in`;
+        alert.style.position = 'fixed';
+        alert.style.top = '20px';
+        alert.style.right = '20px';
+        alert.style.zIndex = '1100';
+        alert.style.maxWidth = '400px';
+        alert.innerHTML = `
+          <div class="d-flex align-items-center">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+            <span>${message}</span>
+          </div>
         `;
-        studentCount.textContent = 'Showing 0 students';
-        return;
+        
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+          alert.style.opacity = '0';
+          setTimeout(() => alert.remove(), 300);
+        }, 3000);
       }
 
-      window.filteredStudents.forEach(student => {
-        const status = student.status?.toLowerCase() || 'absent';
-        const statusClass =
-          status === 'present' ? 'status-present' :
-          status === 'late' ? 'status-late' :
-          'status-absent';
+      downloadBtn.addEventListener('click', () => {
+        if (!window.filteredStudents || window.filteredStudents.length === 0) {
+          showAlert('No data available to export.', 'warning');
+          return;
+        }
 
-        const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+        const doc = new jspdf.jsPDF();
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US', {
+          year: 'numeric', month: 'long', day: 'numeric',
+          hour: '2-digit', minute: '2-digit',
+        });
 
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${student.full_name}</td>
-          <td>${student.student_id}</td>
-          <td>${student.course}</td>
-          <td>${student.section}</td>
-          <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-          <td>${formatTimestamp(student.timestamp)}</td>
-        `;
-        studentTableBody.appendChild(row);
+        const fileName = `Attendance_${window.currentSection || 'Unknown'}_${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.pdf`;
+
+        const dataRows = window.filteredStudents.map(student => [
+          student.full_name,
+          student.student_id,
+          student.course,
+          student.section,
+          student.status?.charAt(0).toUpperCase() + student.status?.slice(1) || 'Absent',
+          formatTimestamp(student.timestamp)
+        ]);
+
+        doc.setFontSize(16);
+        doc.text(`Attendance Report - ${window.currentSection || 'Unknown'}`, 14, 20);
+        doc.setFontSize(10);
+        doc.text(`Generated on: ${formattedDate}`, 14, 26);
+
+        doc.autoTable({
+          head: [['Name', 'ID', 'Course', 'Section', 'Status', 'Timestamp']],
+          body: dataRows,
+          startY: 35,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [26, 54, 93],
+            textColor: 255,
+            fontStyle: 'bold',
+          },
+          alternateRowStyles: {
+            fillColor: [248, 249, 250],
+          },
+          styles: { fontSize: 9, cellPadding: 4 }
+        });
+
+        doc.save(fileName);
+        showAlert('PDF exported successfully!');
       });
 
-      studentCount.textContent = `Showing ${window.filteredStudents.length} student(s)`;
-    }
-
-    function formatTimestamp(timestamp) {
-      if (!timestamp) return 'Not recorded';
-      const date = new Date(timestamp);
-      return isNaN(date) ? 'Invalid date' : date.toLocaleString('en-US', {
-        year: 'numeric', month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
-    }
-
-    function showAlert(message, type = 'success') {
-      const alert = document.createElement('div');
-      alert.className = `alert alert-${type} fade-in`;
-      alert.style.position = 'fixed';
-      alert.style.top = '20px';
-      alert.style.right = '20px';
-      alert.style.zIndex = '1100';
-      alert.style.maxWidth = '400px';
-      alert.innerHTML = `
-        <div class="d-flex align-items-center">
-          <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
-          <span>${message}</span>
-        </div>
-      `;
-      
-      document.body.appendChild(alert);
-      
-      setTimeout(() => {
-        alert.style.opacity = '0';
-        setTimeout(() => alert.remove(), 300);
-      }, 3000);
-    }
-
-    downloadBtn.addEventListener('click', () => {
-      if (!window.filteredStudents || window.filteredStudents.length === 0) {
-        showAlert('No data available to export.', 'warning');
-        return;
-      }
-
-      const doc = new jspdf.jsPDF();
-      const today = new Date();
-      const formattedDate = today.toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric',
-        hour: '2-digit', minute: '2-digit',
+      sectionInput.addEventListener('input', () => {
+        const selected = sectionInput.value.trim();
+        if (selected) {
+          window.currentSection = selected;
+          loadStudents(selected);
+        }
       });
 
-      const fileName = `Attendance_${window.currentSection || 'Unknown'}_${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.pdf`;
+      statusFilter.addEventListener('change', applyFilters);
+      searchInput.addEventListener('input', applyFilters);
 
-      const dataRows = window.filteredStudents.map(student => [
-        student.full_name,
-        student.student_id,
-        student.course,
-        student.section,
-        student.status?.charAt(0).toUpperCase() + student.status?.slice(1) || 'Absent',
-        formatTimestamp(student.timestamp)
-      ]);
-
-      doc.setFontSize(16);
-      doc.text(`Attendance Report - ${window.currentSection || 'Unknown'}`, 14, 20);
-      doc.setFontSize(10);
-      doc.text(`Generated on: ${formattedDate}`, 14, 26);
-
-      doc.autoTable({
-        head: [['Name', 'ID', 'Course', 'Section', 'Status', 'Timestamp']],
-        body: dataRows,
-        startY: 35,
-        theme: 'grid',
-        headStyles: {
-          fillColor: [26, 54, 93],
-          textColor: 255,
-          fontStyle: 'bold',
-        },
-        alternateRowStyles: {
-          fillColor: [248, 249, 250],
-        },
-        styles: { fontSize: 9, cellPadding: 4 }
+      // Initialize
+      loadSections();
+    </script>
+    
+    <script>
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to logout?')) {
+          // Clear session or any admin auth tokens
+          sessionStorage.removeItem('admin_logged_in');
+          window.location.href = 'index.html';
+        }
       });
+    </script>
 
-      doc.save(fileName);
-      showAlert('PDF exported successfully!');
-    });
+    <script>
+      window.history.pushState(null, "", window.location.href);        
+      window.onpopstate = function () {
+        window.history.pushState(null, "", window.location.href);
+      };
+    </script>
 
-    sectionInput.addEventListener('input', () => {
-      const selected = sectionInput.value.trim();
-      if (selected) {
-        window.currentSection = selected;
-        loadStudents(selected);
-      }
-    });
-
-    statusFilter.addEventListener('change', applyFilters);
-    searchInput.addEventListener('input', applyFilters);
-
-    // Initialize
-    loadSections();
-  </script>
-  
-  <script>
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      if (confirm('Are you sure you want to logout?')) {
-        // Clear session or any admin auth tokens
-        sessionStorage.removeItem('admin_logged_in');
-        window.location.href = 'index.html';
-      }
-    });
-  </script>
-
-  <script>
-    window.history.pushState(null, "", window.location.href);        
-    window.onpopstate = function () {
-      window.history.pushState(null, "", window.location.href);
-    };
-  </script>
-
-</body>
-</html>
+  </body>
+  </html>
