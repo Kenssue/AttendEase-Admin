@@ -2,38 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Admin Account Control | AttendEase</title>
-
+  
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
   <style>
     :root {
       --primary-dark: #1a365d;
       --primary-light: #f8f9fa;
-      --primary-accent: #4299e1;
+      --primary-accent: #2b6cb0;
       --primary-accent-light: #ebf8ff;
-      --success: #38a169;
+      --success: #2f855a;
       --success-light: #f0fff4;
-      --warning: #dd6b20;
+      --warning: #b7791f;
       --warning-light: #fffaf0;
-      --danger: #e53e3e;
+      --danger: #c53030;
       --danger-light: #fff5f5;
       --secondary: #718096;
       --secondary-light: #f7fafc;
       --text-dark: #2d3748;
-      --text-light: #f7fafc;
-      --border-radius: 8px;
-      --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --text-medium: #4a5568;
+      --text-light: #f7fafc;  
+      --border-radius: 0.5rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       --transition: all 0.2s ease-in-out;
-      --active: #3182ce;
-      --sidebar-width: 260px;
-      --header-height: 80px;
+      --sidebar-width: 280px;
     }
 
     body {
@@ -44,6 +46,7 @@
       line-height: 1.6;
     }
 
+    /* Dashboard Layout */
     .dashboard-container {
       display: flex;
       min-height: 100vh;
@@ -61,7 +64,7 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-md);
     }
 
     .sidebar-header {
@@ -87,6 +90,19 @@
       padding: 1rem 0;
       flex-grow: 1;
       overflow-y: auto;
+    }
+
+    .nav-group {
+      padding: 0.5rem 0;
+    }
+
+    .nav-group-title {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.25rem;
     }
 
     .nav-item {
@@ -140,37 +156,45 @@
     }
 
     /* Header Styles */
-    .header-container {
+    .page-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
       flex-wrap: wrap;
-      gap: 1rem;
-      background: white;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
       padding: 1.5rem;
+      background-color: white;
       border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
     }
 
-    .page-header {
+    .page-header-content {
       flex: 1;
       min-width: 300px;
     }
 
-    .page-header h1 {
-      font-weight: 700;
+    .page-title {
       font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-      color: var(--primary-dark);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-right: 0.75rem;
+      display: inline-block;
     }
 
-    .page-header p {
-      color: var(--secondary);
+    .page-description {
+      color: var(--text-medium);
+      margin-top: 0.5rem;
       margin-bottom: 0;
-      font-size: 0.9rem;
     }
 
+    .page-header-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    /* User Profile */
     .user-profile {
       display: flex;
       align-items: center;
@@ -233,8 +257,36 @@
       background: white;
       padding: 1.5rem;
       border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
       margin-bottom: 1.5rem;
+    }
+
+    .filters-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .filters-header h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0;
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: none;
+      color: var(--primary-accent);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .btn-reset:hover {
+      text-decoration: underline;
     }
 
     .filters {
@@ -248,12 +300,29 @@
       margin-bottom: 0;
     }
 
-    .filter-group label {
+    .filter-label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--text-dark);
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary);
+      font-size: 0.9rem;
+    }
+
+    .input-with-icon input {
+      padding-left: 2.25rem;
     }
 
     .filters input,
@@ -274,145 +343,50 @@
       outline: none;
     }
 
-    .action-buttons {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-      align-items: flex-end;
+    /* Button Styles */
+    .btn {
+      --btn-padding: 0.625rem 1.25rem;
+      --btn-radius: 0.375rem;
+      --btn-font-size: 0.875rem;
+      --btn-icon-size: 1rem;
+      
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: var(--btn-padding);
+      border-radius: var(--btn-radius);
+      font-size: var(--btn-font-size);
+      font-weight: 500;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn i {
+      font-size: var(--btn-icon-size);
     }
 
     .btn-primary {
       background-color: var(--primary-dark);
       color: white;
-      border: none;
-      padding: 0.625rem 1.25rem;
-      border-radius: var(--border-radius);
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-      height: fit-content;
     }
 
     .btn-primary:hover {
-      background-color: #2c5282;
+      background-color: var(--primary-accent);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(26, 54, 93, 0.2);
+      box-shadow: var(--shadow-md);
     }
 
-    /* Table Styles */
-    .table-container {
-      background: white;
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      margin-bottom: 2rem;
-      overflow-x: auto;
-      position: relative;
-      min-height: 300px;
+    .btn-outline {
+      background-color: transparent;
+      border-color: var(--secondary-light);
+      color: var(--text-dark);
     }
 
-    .table {
-      border-collapse: separate;
-      border-spacing: 0;
-      width: 100%;
-      font-size: 0.9rem;
-    }
-
-    .table thead {
-      background-color: var(--primary-dark);
-      color: var(--text-light);
-      position: sticky;
-      top: 0;
-    }
-
-    .table th {
-      padding: 1rem;
-      font-weight: 600;
-      text-align: left;
-      border-bottom: none;
-      white-space: nowrap;
-    }
-
-    .table td {
-      padding: 1rem;
-      vertical-align: middle;
-      border-top: 1px solid #edf2f7;
-      word-wrap: break-word;
-    }
-
-    .table tr:hover td {
-      background-color: #f8fafc;
-    }
-
-    .sortable-header {
-      cursor: pointer;
-      user-select: none;
-      position: relative;
-      transition: var(--transition);
-    }
-
-    .sortable-header:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .sortable-header i {
-      margin-left: 0.5rem;
-      opacity: 0.7;
-      font-size: 0.8rem;
-    }
-
-    /* Status Badges */
-    .status-badge {
-      padding: 0.4rem 0.75rem;
-      border-radius: 50px;
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: inline-block;
-      min-width: 80px;
-      text-align: center;
-      text-transform: capitalize;
-      letter-spacing: 0.5px;
-    }
-
-    .status-present {
-      background-color: var(--success);
-    }
-
-    .status-absent {
-      background-color: var(--danger);
-    }
-
-    .status-late {
-      background-color: var(--warning);
-    }
-
-    .status-pending {
-      background-color: var(--warning);
-    }
-
-    .status-active {
-      background-color: var(--success);
-    }
-
-    /* Button Styles */
-    .btn {
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-sm {
-      padding: 0.375rem 0.75rem;
-      font-size: 0.8rem;
+    .btn-outline:hover {
+      background-color: var(--secondary-light);
     }
 
     .btn-outline-warning {
@@ -435,17 +409,172 @@
       color: white;
     }
 
-    /* Password Toggle */
-    .password-toggle {
+    .btn-sm {
+      --btn-padding: 0.375rem 0.75rem;
+      --btn-font-size: 0.75rem;
+      --btn-icon-size: 0.875rem;
+    }
+
+    /* Improved Table Styles */
+    .table-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      position: relative;
+      min-height: 300px;
+    }
+
+    .table {
+      --table-border-radius: 0.5rem;
+      --table-cell-padding: 0.75rem 1rem;
+      --table-header-padding: 0.75rem 1rem;
+      
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.67rem;
+      table-layout: fixed;
+    }
+
+    .table thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .table th {
+      background-color: var(--primary-dark);
+      color: white;
+      font-weight: 600;
+      text-align: left;
+      padding: var(--table-header-padding);
+      position: relative;
+      white-space: nowrap;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .table th:first-child {
+      border-top-left-radius: var(--table-border-radius);
+      border-left: none;
+    }
+
+    .table th:last-child {
+      border-top-right-radius: var(--table-border-radius);
+      border-right: none;
+    }
+
+    .table td {
+      padding: var(--table-cell-padding);
+      border-bottom: 1px solid #edf2f7;
+      vertical-align: middle;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table tr:last-child td:first-child {
+      border-bottom-left-radius: var(--table-border-radius);
+    }
+
+    .table tr:last-child td:last-child {
+      border-bottom-right-radius: var(--table-border-radius);
+    }
+
+    .table tr:hover td {
+      background-color: var(--primary-accent-light);
+    }
+
+    /* Column Width Adjustments */
+    .table th:nth-child(1), .table td:nth-child(1) { width: 2%; } /* # */
+    .table th:nth-child(2), .table td:nth-child(2) { width: 7%; } /* Student ID */
+    .table th:nth-child(3), .table td:nth-child(3) { width: 10%; } /* Full Name */
+    .table th:nth-child(4), .table td:nth-child(4) { width: 10%; } /* Email */
+    .table th:nth-child(5), .table td:nth-child(5) { width: 10%; } /* Password */
+    .table th:nth-child(6), .table td:nth-child(6) { width: 12%; } /* Course/Section */
+    .table th:nth-child(7), .table td:nth-child(7) { width: 10%; } /* Registered At */
+    .table th:nth-child(8), .table td:nth-child(8) { width: 5%; } /* Status */
+    .table th:nth-child(9), .table td:nth-child(9) { width: 10%; } /* Actions */
+
+    /* Sortable Header Improvements */
+    .sortable-header {
       cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: var(--transition);
+      padding-right: 1.5rem;
+    }
+
+    /* Password Field Improvements */
+    .password-field {
+      display: flex;
+      align-items: center;
+    }
+
+    .password-value {
+      flex-grow: 1;
+    }
+
+    .password-toggle {
       color: var(--primary-accent);
       margin-left: 0.5rem;
-      user-select: none;
+      cursor: pointer;
       transition: var(--transition);
+      flex-shrink: 0;
     }
 
     .password-toggle:hover {
       opacity: 0.8;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    .action-buttons .btn {
+      padding: 0.375rem;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      min-width: 80px;
+      text-align: center;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge i {
+      font-size: 0.625rem;
+    }
+
+    .status-active {
+      background-color: var(--success-light);
+      color: var(--success);
+    }
+
+    .status-pending {
+      background-color: var(--warning-light);
+      color: var(--warning);
     }
 
     /* Empty State */
@@ -455,7 +584,7 @@
       color: var(--secondary);
     }
 
-    .empty-state i {
+    .empty-state-icon {
       font-size: 3rem;
       margin-bottom: 1rem;
       color: #cbd5e0;
@@ -464,8 +593,12 @@
 
     .empty-state p {
       font-size: 1rem;
-      margin-bottom: 0;
+      margin-bottom: 1.5rem;
       color: var(--secondary);
+    }
+
+    .empty-state .btn {
+      margin-top: 1rem;
     }
 
     /* Loading Spinner */
@@ -520,7 +653,7 @@
       align-items: center;
       gap: 0.75rem;
       transition: var(--transition);
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow);
     }
 
     .mobile-menu-btn:hover {
@@ -547,149 +680,6 @@
       font-size: 1rem;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 1200px) {
-      .filters {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
-    }
-
-    @media (max-width: 992px) {
-      .sidebar {
-        transform: translateX(-100%);
-        box-shadow: none;
-      }
-      
-      .sidebar.active {
-        transform: translateX(0);
-        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
-      }
-      
-      .main-content {
-        margin-left: 0;
-      }
-      
-      .mobile-menu-btn {
-        display: flex;
-      }
-      
-      .table th, .table td {
-        padding: 0.75rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .content-area {
-        padding: 1.5rem;
-      }
-      
-      .filters {
-        grid-template-columns: 1fr;
-      }
-      
-      .action-buttons {
-        justify-content: flex-start;
-      }
-      
-      .header-container {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1.25rem;
-      }
-      
-      .user-profile {
-        width: 100%;
-        justify-content: space-between;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid #eee;
-      }
-      
-      .table-container {
-        padding: 1rem;
-      }
-      
-      .table th, .table td {
-        padding: 0.5rem;
-        font-size: 0.85rem;
-      }
-      
-      .status-badge {
-        min-width: 70px;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.7rem;
-      }
-
-      .btn-group {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .btn-group .btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .content-area {
-        padding: 1rem;
-      }
-      
-      .header-container {
-        padding: 1rem;
-      }
-      
-      .page-header h1 {
-        font-size: 1.5rem;
-      }
-      
-      .logout-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-      }
-      
-      .btn-primary {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-      }
-      
-      .empty-state {
-        padding: 2rem 1rem;
-      }
-      
-      .empty-state i {
-        font-size: 2.5rem;
-      }
-    }
-
-    /* Animation */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in {
-      animation: fadeIn 0.3s ease-out forwards;
-    }
-
-    /* Overlay for mobile menu */
-    .sidebar-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none;
-    }
-
-    @media (max-width: 992px) {
-      .sidebar-overlay.active {
-        display: block;
-      }
-    }
-
     /* Skeleton Loading */
     .skeleton-row td {
       position: relative;
@@ -714,6 +704,209 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+      .filters {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      
+      .table th:nth-child(4), .table td:nth-child(4) { width: 16%; } /* Email */
+      .table th:nth-child(6), .table td:nth-child(6) { width: 14%; } /* Course/Section */
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .mobile-menu-btn {
+        display: flex;
+      }
+      
+      .table {
+        font-size: 0.85rem;
+      }
+      
+      .table th, .table td {
+        padding: 0.625rem 0.75rem;
+      }
+      
+      .table th:nth-child(1), .table td:nth-child(1) { width: 6%; }
+      .table th:nth-child(2), .table td:nth-child(2) { width: 12%; }
+      .table th:nth-child(3), .table td:nth-child(3) { width: 16%; }
+      .table th:nth-child(4), .table td:nth-child(4) { width: 18%; }
+      .table th:nth-child(5), .table td:nth-child(5) { width: 10%; }
+      .table th:nth-child(6), .table td:nth-child(6) { width: 12%; }
+      .table th:nth-child(7), .table td:nth-child(7) { width: 14%; }
+      .table th:nth-child(8), .table td:nth-child(8) { width: 8%; }
+      .table th:nth-child(9), .table td:nth-child(9) { width: 4%; }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-area {
+        padding: 1.5rem;
+      }
+      
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.25rem;
+      }
+      
+      .page-header-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      
+      .table-container {
+        padding: 1rem;
+        border-radius: 0.375rem;
+      }
+      
+      .table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .table thead {
+        display: none;
+      }
+      
+      .table tbody {
+        display: block;
+        width: 100%;
+      }
+      
+      .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        background: white;
+        position: relative;
+      }
+      
+      .table tr:last-child {
+        margin-bottom: 0;
+      }
+      
+      .table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #edf2f7;
+        width: 100% !important;
+      }
+      
+      .table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-right: auto;
+        padding-right: 1rem;
+        text-align: left;
+      }
+      
+      .table td:last-child {
+        border-bottom: none;
+      }
+      
+      .status-badge {
+        margin-left: auto;
+      }
+      
+      .action-buttons {
+        justify-content: flex-end;
+        width: 100%;
+      }
+      
+      .password-field {
+        justify-content: flex-end;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .content-area {
+        padding: 1rem;
+      }
+      
+      .page-header {
+        padding: 1rem;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .logout-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .empty-state {
+        padding: 2rem 1rem;
+      }
+      
+      .empty-state-icon {
+        font-size: 2.5rem;
+      }
+      
+      .table td {
+        padding: 0.625rem;
+        font-size: 0.825rem;
+      }
+      
+      .status-badge {
+        min-width: 70px;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.7rem;
+      }
+      
+      .action-buttons .btn {
+        width: 28px;
+        height: 28px;
+        padding: 0.25rem;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    /* Focus styles for accessibility */
+    *:focus {
+      outline: 2px solid var(--primary-accent);
+      outline-offset: 2px;
+    }
   </style>
 </head>
 <body>
@@ -724,21 +917,28 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h3><i class="fas fa-university"></i> AttendEase</h3>
+        <h3><span>AttendEase</span></h3>
       </div>
       
-      <nav class="nav-menu">
-        <div class="nav-item">
-          <a href="adminattendance.html" class="nav-link">
-            <i class="fas fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-          </a>
+      <nav class="nav-menu" aria-label="Main navigation">
+        <div class="nav-group">
+          <p class="nav-group-title">Attendance</p>
+          <div class="nav-item">
+            <a href="adminattendance.html" class="nav-link">
+              <i class="fas fa-calendar-check"></i>
+              <span>Dashboard</span>
+            </a>
+          </div>
         </div>
-        <div class="nav-item">
-          <a href="adminaccountcontrol.html" class="nav-link active">
-            <i class="fas fa-user-cog"></i>
-            <span>Account Control</span>
-          </a>
+        
+        <div class="nav-group">
+          <p class="nav-group-title">Management</p>
+          <div class="nav-item">
+            <a href="adminaccountcontrol.html" class="nav-link active" aria-current="page">
+              <i class="fas fa-users-cog"></i>
+              <span>Account Control</span>
+            </a>
+          </div>
         </div>
       </nav>
       
@@ -749,7 +949,7 @@
             <span class="user-name">Admin User</span>
             <span class="user-role">Administrator</span>
           </div>
-          <button class="logout-btn" id="logoutBtn">
+          <button class="logout-btn" id="logoutBtn" aria-label="Logout">
             <i class="fas fa-sign-out-alt"></i>
           </button>
         </div>
@@ -759,58 +959,87 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="content-area">
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="sidebar">
           <i class="fas fa-bars"></i>
           <span>Menu</span>
         </button>
 
-        <div class="header-container">
-          <div class="page-header">
-            <h1>Student Account Control</h1>
-            <p>Manage student accounts and permissions</p>
+        <div class="page-header">
+          <div class="page-header-content">
+            <h1>
+              <span class="page-title">Student Account Control</span>
+            </h1>
+            <p class="page-description">Manage student accounts and permissions</p>
           </div>
-          <a href="adminattendance.html" class="btn btn-primary">
-            <i class="fas fa-chart-bar"></i>
-            <span>View Attendance</span>
-          </a>
+          <div class="page-header-actions">
+            <a href="adminattendance.html" class="btn btn-outline">
+              <i class="fas fa-chart-bar"></i>
+              <span>View Attendance</span>
+            </a>
+          </div>
         </div>
 
         <div class="filters-container">
+          <div class="filters-header">
+            <h4>Filter Students</h4>
+            <button class="btn-reset" id="resetFilters">Reset Filters</button>
+          </div>
           <div class="filters">
             <div class="filter-group">
-              <label for="searchName">Search Students</label>
-              <input type="text" class="form-control" id="searchName" placeholder="Enter name...">
+              <label for="searchName" class="filter-label">
+                <i class="fas fa-search"></i>
+                Search Students
+              </label>
+              <div class="input-with-icon">
+                <input type="text" id="searchName" class="form-control" placeholder="Name, ID, or email...">
+              </div>
             </div>
             <div class="filter-group">
-              <label for="sortOrder">Sort by Time Registered</label>
-              <select class="form-select" id="sortOrder">
-                <option value="desc">Newest to Oldest</option>
-                <option value="asc">Oldest to Newest</option>
+              <label for="statusFilter" class="filter-label">
+                <i class="fas fa-filter"></i>
+                Status
+              </label>
+              <select id="statusFilter" class="form-select">
+                <option value="all">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="sortOrder" class="filter-label">
+                <i class="fas fa-sort"></i>
+                Sort By
+              </label>
+              <select id="sortOrder" class="form-select">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="table-container">
-          <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+          <div class="loading-spinner" id="loadingSpinner">
             <div class="spinner-border text-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
             <p>Loading student data...</p>
           </div>
           
-          <table class="table">
+          <table class="table" aria-describedby="studentCount">
             <thead>
               <tr>
                 <th width="5%">#</th>
                 <th width="10%">Student ID</th>
-                <th width="15%" class="sortable-header" data-sortable data-sort-key="Full Name">Full Name <i class="fas fa-sort"></i></th>
-                <th width="15%" class="sortable-header" data-sortable data-sort-key="Email">Email <i class="fas fa-sort"></i></th>
+                <th width="15%" class="sortable-header" data-sort-key="Full Name">Full Name </th>
+                <th width="18%" class="sortable-header" data-sort-key="Email">Email </th>
                 <th width="10%">Password</th>
-                <th width="10%">Course/Section</th>
-                <th width="15%" class="sortable-header" data-sortable data-sort-key="Registered At">Registered At <i class="fas fa-sort"></i></th>
+                <th width="12%">Course/Section</th>
+                <th width="15%" class="sortable-header" data-sort-key="Registered At">Registered At </i></th>
                 <th width="10%">Status</th>
-                <th width="10%">Actions</th>
+                <th width="5%">Actions</th>
               </tr>
             </thead>
             <tbody id="tableBody">
@@ -866,222 +1095,121 @@
     </div>
   </div>
 
+  <!-- Add Student Modal -->
+  <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="addStudentForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addStudentModalLabel">Add New Student</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbze8AxkuZSphq9S2-lESnAkDZVh5CxBf2BC7jDgZj_qEZv3ciYWH5Vp-1UPcwVNGmM/exec';
-    let students = [];
-    let filteredStudents = [];
-    let debounceTimer;
-    let currentSort = { key: 'Registered At', order: 'desc' };
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbze8AxkuZSphq9S2-lESnAkDZVh5CxBf2BC7jDgZj_qEZv3ciYWH5Vp-1UPcwVNGmM/exec';
+  let students = [];
+  let filteredStudents = [];
+  let debounceTimer;
+  let currentSort = { key: 'Registered At', order: 'desc' };
 
-    // Initialize the application
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchStudents();
-      setupEventListeners();
+  // Initialize the application
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchStudents();
+    setupEventListeners();
+  });
+
+  function setupEventListeners() {
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      const expanded = document.getElementById('mobileMenuBtn').getAttribute('aria-expanded') === 'true';
+      document.getElementById('mobileMenuBtn').setAttribute('aria-expanded', !expanded);
+      document.querySelector('.sidebar').classList.toggle('active');
+      document.getElementById('sidebarOverlay').classList.toggle('active');
     });
 
-    function setupEventListeners() {
-      // Debounced search input
-      document.getElementById("searchName").addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(renderTable, 300);
-      });
+    // Close sidebar when clicking overlay
+    document.getElementById('sidebarOverlay').addEventListener('click', () => {
+      document.getElementById('mobileMenuBtn').setAttribute('aria-expanded', 'false');
+      document.querySelector('.sidebar').classList.remove('active');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    });
 
-      document.getElementById("sortOrder").addEventListener("change", renderTable);
+    // Logout button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to logout?')) {
+        sessionStorage.removeItem('admin_logged_in');
+        window.location.href = 'index.html';
+      }
+    });
 
-      // Initialize sortable columns
-      document.querySelectorAll('th[data-sortable]').forEach(th => {
-        th.addEventListener('click', () => {
-          const key = th.dataset.sortKey;
-          const order = th.dataset.sortOrder === 'asc' ? 'desc' : 'asc';
-          
-          // Update UI indicators
-          document.querySelectorAll('[data-sortable]').forEach(h => {
-            h.innerHTML = h.innerHTML.replace(/ ?[↑↓]/, '');
-            h.dataset.sortOrder = '';
-          });
-          th.innerHTML += order === 'asc' ? ' ↑' : ' ↓';
-          th.dataset.sortOrder = order;
-          
-          // Update current sort
-          currentSort = { key, order };
-          renderTable();
-        });
-      });
+    // Reset filters
+    document.getElementById('resetFilters').addEventListener('click', () => {
+      document.getElementById('searchName').value = '';
+      document.getElementById('statusFilter').value = 'all';
+      document.getElementById('sortOrder').value = 'newest';
+      currentSort = { key: 'Registered At', order: 'desc' };
+      resetSortHeaders();
+      renderTable();
+    });
 
-      // Mobile menu toggle
-      document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-        document.querySelector('.sidebar').classList.toggle('active');
-        document.getElementById('sidebarOverlay').classList.toggle('active');
-      });
-
-      // Close sidebar when clicking overlay
-      document.getElementById('sidebarOverlay').addEventListener('click', () => {
-        document.querySelector('.sidebar').classList.remove('active');
-        document.getElementById('sidebarOverlay').classList.remove('active');
-      });
-
-      // Logout button
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-        if (confirm('Are you sure you want to logout?')) {
-          window.location.href = 'index.html';
-        }
-      });
-    }
-
-    async function fetchStudents() {
-      document.getElementById('loadingSpinner').style.display = 'flex';
-      try {
-        const res = await fetch(scriptURL);
-        const data = await res.json();  
-        students = data.map((s, i) => ({ ...s, rowIndex: i + 2 }));
-        filteredStudents = [...students];
+    // Initialize sortable columns
+    document.querySelectorAll('.sortable-header').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sortKey;
+        const isActive = th.classList.contains('active');
+        const sortOrder = isActive && th.classList.contains('asc') ? 'desc' : 'asc';
+        
+        // Reset all headers
+        resetSortHeaders();
+        
+        // Set current header state
+        th.classList.add('active', sortOrder);
+        const icon = th.querySelector('i');
+        if (icon) icon.className = sortOrder === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
+        
+        // Update current sort
+        currentSort = { key, order: sortOrder };
         renderTable();
-      } catch (err) {
-        alert("Select A Section First!.");
-        console.error(err);
-      } finally {
-        document.getElementById('loadingSpinner').style.display = 'none';
-      }
-    }
-
-    function renderTable() {
-      const searchText = document.getElementById("searchName").value.toLowerCase();
-      const timeSortOrder = document.getElementById("sortOrder").value;
-      
-      // Filter students
-      filteredStudents = students.filter(s => 
-        s["Full Name"].toLowerCase().includes(searchText)
-      );
-
-      // Sort students
-      filteredStudents.sort((a, b) => {
-        if (currentSort.key === 'Registered At') {
-          const dateA = new Date(a["Registered At"]);
-          const dateB = new Date(b["Registered At"]);
-          return currentSort.order === "asc" ? dateA - dateB : dateB - dateA;
-        } else {
-          const valA = a[currentSort.key];
-          const valB = b[currentSort.key];
-          return currentSort.order === "asc" 
-            ? valA.localeCompare(valB) 
-            : valB.localeCompare(valA);
-        }
       });
+    });
 
-      const table = document.getElementById("tableBody");
-      table.innerHTML = "";
+    // Search input with debounce
+    document.getElementById('searchName').addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(renderTable, 300);
+    });
 
-      filteredStudents.forEach((s, index) => {
-        const rawDate = new Date(s["Registered At"]);
-        const registrationTime = rawDate.toLocaleString('en-US', { 
-          year: 'numeric', 
-          month: 'numeric', 
-          day: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit', 
-          hour12: true 
-        }).replace(',', ' -');
+    // Status filter change
+    document.getElementById('statusFilter').addEventListener('change', renderTable);
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td data-label="#">${index + 1}</td>
-          <td data-label="Student ID">${s["Student ID"]}</td>
-          <td data-label="Full Name">${s["Full Name"]}</td>
-          <td data-label="Email">${s.Email}</td>
-          <td data-label="Password">
-            <span class="password-value">••••••</span>
-            <span class="password-toggle" onclick="togglePassword(this, '${s.Password}')">
-              <i class="fas fa-eye"></i>
-            </span>
-          </td>
-          <td data-label="Course/Section">${s.Course} - ${s.Section}</td>
-          <td data-label="Registered At">${registrationTime}</td>
-          <td data-label="Status">  
-            ${s["Account Status"] === "Active" 
-              ? '<span class="status-badge status-active">Active</span>' 
-              : '<span class="status-badge status-pending">Pending</span>'
-            }
-          </td>
-          <td data-label="Actions">
-            <div class="btn-group btn-group-sm" role="group">
-              <button class="btn btn-outline-warning" onclick="toggleStatus(${s.rowIndex}, '${s.Email}', this, event)">
-                ${s["Account Status"] === "Pending" ? "<i class='fas fa-check'></i>" : "<i class='fas fa-pause'></i>"}
-              </button>
-              <button class="btn btn-outline-danger" onclick="deleteStudent(${s.rowIndex}, '${s.Email}', event)">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </td>
-        `;
-        
-        // Add row click handler
-        row.addEventListener('click', (e) => {
-          if (!e.target.closest('button')) {
-            document.querySelectorAll('.active-row').forEach(r => r.classList.remove('active-row'));
-            row.classList.add('active-row');
-          }
-        });
-        
-        table.appendChild(row);
-      });
-
-      document.getElementById('studentCount').textContent = `Showing ${filteredStudents.length} student(s)`;
-    }
-
-    function togglePassword(element, password) {
-      const passwordSpan = element.previousElementSibling;
-      if (passwordSpan.textContent === "••••••") {
-        passwordSpan.textContent = password;
-        element.innerHTML = '<i class="fas fa-eye-slash"></i>';
-      } else {
-        passwordSpan.textContent = "••••••";
-        element.innerHTML = '<i class="fas fa-eye"></i>';
+    // Sort order change
+    document.getElementById('sortOrder').addEventListener('change', () => {
+      const value = document.getElementById('sortOrder').value;
+      switch(value) {
+        case 'newest':
+          currentSort = { key: 'Registered At', order: 'desc' };
+          break;
+        case 'oldest':
+          currentSort = { key: 'Registered At', order: 'asc' };
+          break;
+        case 'name-asc':
+          currentSort = { key: 'Full Name', order: 'asc' };
+          break;
+        case 'name-desc':
+          currentSort = { key: 'Full Name', order: 'desc' };
+          break;
       }
-    }
+      resetSortHeaders();
+      renderTable();
+    });
 
-    async function toggleStatus(rowIndex, email, button, event) {
-      event.stopPropagation();
-      try {
-        button.disabled = true;
-        const originalText = button.innerHTML;
-        button.innerHTML = `
-          <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-        `;
-
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ action: 'toggleStatus', rowIndex, email })
-        });
-
-        const result = await res.text();
-        alert(`Student Account status: ${result}`);
-        fetchStudents();
-      } catch (err) {
-        alert("Failed to toggle status.");
-        console.error(err);
-      }
-    }
-
-    function deleteStudent(rowIndex, email, event) {
-      event.stopPropagation();
-      const student = students.find(s => s.rowIndex === rowIndex);
-      if (!student) {
-        alert("Student account is not found.");
-        return;
-      }
-
-      document.getElementById('deleteStudentInfo').innerHTML =
-        `Are you sure you want to delete <strong>${student["Full Name"]}</strong> account?`;
-      document.getElementById('deleteRowIndex').value = rowIndex;
-      document.getElementById('deleteEmail').value = email;
-      document.getElementById('deleteReason').value = "";
-
-      const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-      deleteModal.show();
-    }
-
+    // Delete form submission
     document.getElementById('deleteForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const deleteBtn = this.querySelector('button[type="submit"]');
@@ -1099,7 +1227,7 @@
 
       const student = students.find(s => s.rowIndex == rowIndex);
       if (!student) {
-        alert("Student account is not found.");
+        showAlert("Student not found.", "danger");
         deleteBtn.innerHTML = originalHTML;
         deleteBtn.disabled = false;
         return;
@@ -1121,16 +1249,255 @@
         });
 
         const result = await res.text();
-        alert(result);
+        showAlert(result);
         bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
         fetchStudents();
       } catch (err) {
-        alert("Failed to delete student account.");
         console.error(err);
+        showAlert("Failed to delete student. Please try again.", "danger");
         deleteBtn.innerHTML = originalHTML;
         deleteBtn.disabled = false;
       }
     });
-  </script>
+  }
+
+  function resetSortHeaders() {
+    document.querySelectorAll('.sortable-header').forEach(h => {
+      h.classList.remove('active', 'asc', 'desc');
+      const icon = h.querySelector('i');
+      if (icon) icon.className = 'fas fa-sort';
+    });
+  }
+
+  async function fetchStudents() {
+    document.getElementById('loadingSpinner').style.display = 'flex';
+    try {
+      const res = await fetch(scriptURL);
+      const data = await res.json();  
+      students = data.map((s, i) => ({ ...s, rowIndex: i + 2 }));
+      filteredStudents = [...students];
+      renderTable();
+    } catch (err) {
+      console.error(err);
+      showTableError();
+    } finally {
+      document.getElementById('loadingSpinner').style.display = 'none';
+    }
+  }
+
+  function showTableError() {
+    document.getElementById('tableBody').innerHTML = `
+      <tr>
+        <td colspan="9" class="empty-state">
+          <div class="empty-state-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <p>Failed to load students. Please try again.</p>
+          <button class="btn btn-outline" onclick="fetchStudents()">
+            <i class="fas fa-sync-alt"></i>
+            Retry
+          </button>
+        </td>
+      </tr>
+    `;
+    document.getElementById('studentCount').textContent = 'Failed to load students';
+  }
+
+  function renderTable() {
+    if (students.length === 0) {
+      showTableError();
+      return;
+    }
+
+    const searchText = document.getElementById("searchName").value.toLowerCase();
+    const statusFilter = document.getElementById("statusFilter").value;
+    
+    // Filter students
+    filteredStudents = students.filter(s => {
+      const matchesSearch = 
+        s["Full Name"]?.toLowerCase().includes(searchText) ||
+        s["Student ID"]?.toLowerCase().includes(searchText) ||
+        s.Email?.toLowerCase().includes(searchText);
+      
+      const matchesStatus = 
+        statusFilter === 'all' ||
+        (statusFilter === 'active' && s["Account Status"] === "Active") ||
+        (statusFilter === 'pending' && s["Account Status"] === "Pending");
+      
+      return matchesSearch && matchesStatus;
+    });
+
+    // Sort students
+    filteredStudents.sort((a, b) => {
+      if (currentSort.key === 'Registered At') {
+        const dateA = new Date(a["Registered At"]);
+        const dateB = new Date(b["Registered At"]);
+        return currentSort.order === "asc" ? dateA - dateB : dateB - dateA;
+      } else {
+        const valA = a[currentSort.key] || '';
+        const valB = b[currentSort.key] || '';
+        return currentSort.order === "asc" 
+          ? valA.toString().localeCompare(valB.toString()) 
+          : valB.toString().localeCompare(valA.toString());
+      }
+    });
+
+    const table = document.getElementById("tableBody");
+    table.innerHTML = "";
+
+    if (filteredStudents.length === 0) {
+      table.innerHTML = `
+        <tr>
+          <td colspan="9" class="empty-state">
+            <div class="empty-state-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <p>No matching students found.</p>
+            <button class="btn btn-outline" onclick="document.getElementById('resetFilters').click()">
+              <i class="fas fa-filter"></i>
+              Clear Filters
+            </button>
+          </td>
+        </tr>
+      `;
+      document.getElementById('studentCount').textContent = 'Showing 0 students';
+      return;
+    }
+
+    filteredStudents.forEach((s, index) => {
+      const rawDate = new Date(s["Registered At"]);
+      const registrationTime = rawDate.toLocaleString('en-US', { 
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true 
+      }).replace(',', ' -');
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td data-label="#">${index + 1}</td>
+        <td data-label="Student ID">${s["Student ID"]}</td>
+        <td data-label="Full Name">${s["Full Name"]}</td>
+        <td data-label="Email">${s.Email}</td>
+        <td data-label="Password">
+          <div class="password-field">
+            <span class="password-value">••••••</span>
+            <span class="password-toggle" onclick="togglePassword(this, '${s.Password}')">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+        </td>
+        <td data-label="Course/Section">${s.Course} - ${s.Section}</td>
+        <td data-label="Registered At">${registrationTime}</td>
+        <td data-label="Status">  
+          ${s["Account Status"] === "Active" 
+            ? '<span class="status-badge status-active"><i class="fas fa-check-circle"></i> Active</span>' 
+            : '<span class="status-badge status-pending"><i class="fas fa-clock"></i> Pending</span>'
+          }
+        </td>
+        <td data-label="Actions">
+          <div class="action-buttons">
+            <button class="btn btn-outline-warning btn-sm" onclick="toggleStatus(${s.rowIndex}, '${s.Email}', this, event)">
+              ${s["Account Status"] === "Pending" ? "<i class='fas fa-check'></i>" : "<i class='fas fa-pause'></i>"}
+            </button>
+            <button class="btn btn-outline-danger btn-sm" onclick="deleteStudent(${s.rowIndex}, '${s.Email}', event)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </td>
+      `;
+      
+      // Add row click handler
+      row.addEventListener('click', (e) => {
+        if (!e.target.closest('button')) {
+          document.querySelectorAll('.active-row').forEach(r => r.classList.remove('active-row'));
+          row.classList.add('active-row');
+        }
+      });
+      
+      table.appendChild(row);
+    });
+
+    document.getElementById('studentCount').textContent = `Showing ${filteredStudents.length} student(s)`;
+  }
+
+  function togglePassword(element, password) {
+    const passwordSpan = element.previousElementSibling;
+    if (passwordSpan.textContent === "••••••") {
+      passwordSpan.textContent = password;
+      element.innerHTML = '<i class="fas fa-eye-slash"></i>';
+    } else {
+      passwordSpan.textContent = "••••••";
+      element.innerHTML = '<i class="fas fa-eye"></i>';
+    }
+  }
+
+  async function toggleStatus(rowIndex, email, button, event) {
+    event.stopPropagation();
+    try {
+      button.disabled = true;
+      const originalText = button.innerHTML;
+      button.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+      `;
+
+      const res = await fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ action: 'toggleStatus', rowIndex, email })
+      });
+
+      const result = await res.text();
+      showAlert(`Student status updated: ${result}`);
+      fetchStudents();
+    } catch (err) {
+      console.error(err);
+      showAlert("Failed to toggle status. Please try again.", "danger");
+    }
+  }
+
+  function deleteStudent(rowIndex, email, event) {
+    event.stopPropagation();
+    const student = students.find(s => s.rowIndex === rowIndex);
+    if (!student) {
+      showAlert("Student not found.", "danger");
+      return;
+    }
+
+    document.getElementById('deleteStudentInfo').innerHTML =
+      `Are you sure you want to delete <strong>${student["Full Name"]}</strong> (${student["Student ID"]})?`;
+    document.getElementById('deleteRowIndex').value = rowIndex;
+    document.getElementById('deleteEmail').value = email;
+    document.getElementById('deleteReason').value = "";
+
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+  }
+
+  function showAlert(message, type = 'success') {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} fade-in`;
+    alert.style.position = 'fixed';
+    alert.style.top = '20px';
+    alert.style.right = '20px';
+    alert.style.zIndex = '1100';
+    alert.style.maxWidth = '400px';
+    alert.innerHTML = `
+      <div class="d-flex align-items-center">
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+        <span>${message}</span>
+      </div>
+    `;
+    
+    document.body.appendChild(alert);
+    
+    setTimeout(() => {
+      alert.style.opacity = '0';
+      setTimeout(() => alert.remove(), 300);
+    }, 3000);
+  }
+</script>
 </body>
 </html>
