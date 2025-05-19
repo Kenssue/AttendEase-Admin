@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ICCT QR Code-Based Attendance System for Students and Professors. Learn how to register, scan, and track attendance.">
+  <meta name="keywords" content="ICCT, QR Code, Attendance System, Student Portal, Professor Portal">
+  <meta name="author" content="ICCT Colleges">
+  <title>AttendEase-Admin | ICCT Attendance System</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+
+<script src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+<script>
+    DisableDevtool({
+    });
+    document.addEventListener('keydown', e => {
+      if (
+        (e.ctrlKey && e.key.toLowerCase() === 's') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'c') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'v') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'x') || 
+        (e.ctrlKey && e.key.toLowerCase() === 'a') ||
+        (e.ctrlKey && e.key.toLowerCase() === 'p')   
+      ) {
+        e.preventDefault();
+      }
+    });
+</script>
+  
+  <style>
+    :root {
+      --primary: #6a11cb;
+      --primary-light: #7d3cff;
+      --secondary: #2575fc;
+      --accent: #00d2ff;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --glass-bg: rgba(26, 26, 46, 0.8);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.15);
+      --border-radius: 16px;
+      --box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('ICCT.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      animation: fadeIn 0.8s ease-out;
+      border: var(--glass-border);
+    }
+
+    .header {
+      padding: 2.5rem;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(106, 17, 203, 0.3), rgba(37, 117, 252, 0.3));
+      border-bottom: var(--glass-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+    }
+
+    .left, .right {
+      padding: 2rem;
+    }
+
+    .left {
+      flex: 1;
+      min-width: 300px;
+      border-right: var(--glass-border);
+    }
+
+    .left h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+
+    .left h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+
+    .guide-item {
+      margin-bottom: 2rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid rgba(37, 117, 252, 0.5);
+      transition: var(--transition);
+    }
+
+    .guide-item:hover {
+      border-left-color: var(--accent);
+      transform: translateX(5px);
+    }
+
+    .guide-item strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .guide-item p {
+      font-size: 1rem;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .action-container {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: var(--border-radius);
+      border: var(--glass-border);
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .checkbox-container input {
+      margin-right: 1rem;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .checkbox-container label {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0) 60%
+      );
+      transform: rotate(30deg);
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(106, 17, 203, 0.6);
+    }
+
+    .btn:hover::after {
+      left: 100%;
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      background: linear-gradient(135deg, #555, #777);
+    }
+
+    footer {
+      padding: 1.5rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      border-top: var(--glass-border);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+    .header {
+      padding: 2rem;
+    }
+    
+    .header h1 {
+      font-size: 2.2rem;
+    }
+    
+    .left, .right {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      max-width: 90%;
+    }
+    
+    .left {
+      border-right: none;
+      border-bottom: var(--glass-border);
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+    }
+    
+    .left h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 1rem;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 100%;
+      margin: 0;
+    }
+    
+    .header {
+      padding: 1.5rem;
+    }
+    
+    .header h1 {
+      font-size: 1.8rem;
+    }
+    
+    .left, .right {
+      padding: 1rem;
+    }
+    
+    .left h2 {
+      font-size: 1.4rem;
+    }
+    
+    .guide-item strong {
+      font-size: 1rem;
+    }
+    
+    .btn {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    .action-container {
+      padding: 1rem;
+    }
+
+    footer {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .header h1 {
+      font-size: 1.6rem;
+    }
+    
+    .header p {
+      font-size: 1rem;
+    }
+    
+    .btn {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+    }
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Welcome to AttendEase</h1>
+      <p>Your seamless solution for QR Code-based attendance tracking and management.</p>
+    </header>
+    
+    <main class="content">
+      <section class="left">
+        <h2>How to Use This Platform:</h2>
+        
+        <div class="guide-item">
+          <strong><i class="fas fa-user-plus"></i> 1. LogIn Process</strong>
+          <p>Open the AttendEase login page, enter your admin password, and click “Generate OTP.” Once the OTP appears, enter it and click “Login” to access the dashboard.</p>
+        </div>
+        
+        <div class="guide-item">
+          <strong><i class="fas fa-qrcode"></i>2. Attendance Management</strong>
+          <p>In the Attendance Dashboard, select a section to view records. Search by name, filter by status, sort columns, and click “Refresh Data” for updates.</p>
+        </div>
+        
+        <div class="guide-item">
+          <strong><i class="fas fa-user-check"></i>3. Account Control</strong>
+          <p>Manage student accounts by searching, activating/deactivating, or deleting them (requires a reason). You can also show/hide passwords using the eye icon.</p>
+        </div>
+        
+        
+        <div class="guide-item">
+          <strong><i class="fas fa-clipboard-check"></i> 4. Exporting Data</strong>
+          <p>To export, filter the attendance list as needed and click “Export PDF.” The file includes student info, status, timestamp, and auto-generates a filename.</p>
+        </div>
+
+        <div class="guide-item">
+          <strong><i class="fas fa-exclamation-circle"></i> 5. Security</strong>
+          <p>The system logs out on inactivity or browser close. OTP login, hidden passwords, and restricted copy/paste enhance security.</p>
+        </div>
+        
+        <div class="guide-item">
+          <strong><i class="fas fa-tools"></i> 6. Troubleshooting</strong>
+          <p>
+            <strong>If login fails, verify credentials or clear your browser cache. For data issues, refresh the page or reset filters. Contact the admin for further help.<br>
+          </p>
+        </div>
+        
+        <div class="guide-item">
+          <strong><i class="fas fa-headset"></i> 7. Support</strong>
+          <p>
+            For technical issues, contact:<br>
+            <strong>Admin Email:</strong> admin@icct.edu.ph<br>
+            <strong>Office Hours:</strong> Monday to Friday, 9AM–5PM
+          </p>
+        </div>
+        
+        <div class="action-container">
+          <div class="checkbox-container">
+            <input type="checkbox" id="termsCheckbox" />
+            <label for="termsCheckbox">I have read and understood all the instructions above</label>
+          </div>
+          <a href="LogIn.html" class="btn disabled" id="proceedButton">
+            <i class="fas fa-sign-in-alt"></i> Log In / Register
+          </a>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+      &copy; 2025 ICCT Colleges - AttendEase System. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    const checkbox = document.getElementById('termsCheckbox');
+    const proceedButton = document.getElementById('proceedButton');
+
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        proceedButton.classList.remove('disabled');
+      } else {
+        proceedButton.classList.add('disabled');
+      }
+    });
+
+    // Add animation to guide items on scroll
+    const guideItems = document.querySelectorAll('.guide-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateX(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    guideItems.forEach((item, index) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(-20px)';
+      item.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+      observer.observe(item);
+    });
+  </script>
+</body>
+</html>
